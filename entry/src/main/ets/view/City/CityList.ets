@@ -1,8 +1,11 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
+import HttpGet from '../../common/util/HttpGet'
 import City from '../../viewmodel/City'
+import WeatherItem from '../../viewmodel/WeatherItem'
 
 @Component
 export struct CityList {
+  @Watch('loadCities')
   @Consume cities: City[]
 
   build() {
@@ -16,21 +19,21 @@ export struct CityList {
                   .fontSize(24)
                   .fontWeight(CommonConstants.FONT_WEIGHT_700)
                   .fontColor(Color.White)
-                if(city.detail)
-                Text(city.detail.airQuality)
+               /* if(city.detail)
+                Text(city.detail.weather.airQuality)
                   .fontColor('#ffe2e1e1')
-                  .fontSize(14)
+                  .fontSize(14)*/
               }
               .padding({left:20})
               Blank()
               Column({space:20}){
                 if(city.detail)
-                Text(`${city.detail.temp}°`)
+                Text(`${city.detail.weather?.temp}°`)
                   .fontSize(20)
                   .fontWeight(CommonConstants.FONT_WEIGHT_700)
                   .fontColor(Color.White)
                 if(city.detail)
-                Text(city.detail.weather)
+                Text(city.detail.weather?.text)
                   .fontSize(14)
                   .fontColor(Color.White)
               }
@@ -50,5 +53,15 @@ export struct CityList {
   }
   deleteButton(id: string){
 
+  }
+
+  //TODO 待完成
+  async loadCities(name:string) {
+    let WeatherDetail:WeatherItem = new WeatherItem()
+    for(let i = 0; i < this.cities.length; i++){
+      if( this.cities[i].id != undefined)
+      WeatherDetail = await HttpGet.getCityWeatherData(this.cities[i].id, "now")
+      this.cities[i].detail = WeatherDetail
+    }
   }
 }

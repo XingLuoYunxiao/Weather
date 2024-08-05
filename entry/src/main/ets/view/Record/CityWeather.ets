@@ -1,13 +1,15 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
+import City from '../../viewmodel/City'
+import The24HoursDetail from './The24HoursDetail'
 import Tips from './Tips'
 
 @Component
 export struct CityWeather {
-  @Prop cities:string[]
   @Prop currentCityIndex:number
+  @Consume cities:City[]
   build() {
     Swiper() {
-      ForEach(this.cities, (city: string, index) => {
+      ForEach(this.cities, (city: City, index) => {
         CityWeatherContent({ city: city })
       })
     }
@@ -23,14 +25,25 @@ export struct CityWeather {
 
 @Component
 struct CityWeatherContent {
-  @Prop city: string
+  @Prop city: City
 
   build() {
     Column() {
+      // 这里放置天气详情内
+      Text(this.city.name + ' 天气详情')
+      Column({space: 20}){
+        Text(`${this.city.detail?.weather?.temp}°`)
+          .fontSize(70)
+          .fontWeight(CommonConstants.FONT_WEIGHT_700)
+        Text(`${this.city.detail?.weather?.text} 23°/35° 空气优`)
+      }
+      .margin(50)
+      //提示框
       Tips()
-        .margin({top:200})
-      // 这里放置天气详情内容，类似于您提供的第二张图片中的内容
-      Text(this.city + ' 天气详情')
+      //24小时的天气预报
+      The24HoursDetail({city: this.city})
+
+
       // ... 其他天气信息组件
 
     }

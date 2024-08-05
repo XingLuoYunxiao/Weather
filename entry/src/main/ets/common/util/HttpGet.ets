@@ -1,30 +1,19 @@
 import http from '@ohos.net.http';
 import City from '../../viewmodel/City';
-//import CityItem from './CityItem';
-
-interface GeneratedTypeLiteralInterface_1 {
-  name: string;
-  id: string;
-}
+import WeatherItem from '../../viewmodel/WeatherItem';
 
 interface CityApiResponse {
-  location: Array<GeneratedTypeLiteralInterface_1>;
+  location: Array<City>;
 }
 
-interface GeneratedTypeLiteralInterface_2 {
-  temp: number;
-  text: string;
-  category: string;
-}
-
-interface WeatherApiResponse {
-  now: GeneratedTypeLiteralInterface_2;
-}
 
 class HttpGet {
   private searchCityUrl: string = 'https://geoapi.qweather.com/v2/city/lookup';
-  private searchIdUrl: string = 'https://devapi.qweather.com/v7/weather/';
+  private searchIdUrl: string = 'https://devapi.qweather.com/v7/weather';
+  //private searchIdUrl: string = 'https://devapi.qweather.com/v7/grid-weather/';
   private key: string = 'f6b4c31d80db485aabdbea8277545500';
+  data:string = ""
+
 
   async searchCity(cityName: string): Promise<City[]> {
     let httpRequest = http.createHttp();
@@ -35,7 +24,8 @@ class HttpGet {
           method: http.RequestMethod.GET,
           extraData: {
             location: cityName,
-            key: this.key
+            key: this.key,
+            gzip: 'n'
           },
           connectTimeout: 10000,
           readTimeout: 10000
@@ -70,7 +60,81 @@ class HttpGet {
     }
   }
 
-  // getCityWeatherData 方法保持不变...
+  async getCityWeatherData(cityId: string | undefined, time: string):Promise<WeatherItem> {
+    let httpRequest = http.createHttp()
+    try{
+      let resp = await httpRequest.request(
+        `${this.searchIdUrl}/${time}`,
+        {
+          method: http.RequestMethod.GET,
+          extraData: {
+            location: cityId,
+            key: this.key,
+          }
+        }
+      );
+
+      console.log("resp:",resp)
+      if( resp.responseCode === 200){
+        console.log('获取天气信息成功', resp.result)
+        let data:WeatherItem = JSON.parse(resp.result.toString()) as WeatherItem
+        return data
+      } else {
+        console.log('获取天气信息失败 错误1:', JSON.stringify(resp))
+        throw new Error(`服务器响应错误：${resp.responseCode}`);
+      }
+    }catch (error) {
+      console.log('天气获取失败：错误2', JSON.stringify(error));
+      if (error instanceof Error) {
+        if (error.message.includes("Couldn't resolve host name")) {
+          throw new Error('网络连接失败，请检查您的网络设置');
+        } else if (error.message.includes("Timeout was reached")) {
+          throw new Error('网络请求超时，请检查您的网络连接并重试');
+        } else {
+          throw new Error('搜索失败：' + error.message);
+        }
+      } else {
+        throw new Error('未知错误发生，请稍后重试');
+      }
+    } finally {
+      httpRequest.destroy();
+    }
+    /*return new Promise(async (resolve, reject) => {
+      //创建http请求
+      let httpRequest = http.createHttp()
+      let resp = await httpRequest.request(
+        `${this.searchIdUrl}/${time}`,
+        {
+          method: http.RequestMethod.GET,
+          extraData: {
+            location: cityId,
+            key: this.key,
+            gzip: "n"
+          }
+        }
+      );
+      if( resp.responseCode === 200){
+        console.log('获取天气信息成功', resp.result)
+        let data:WeatherItem = JSON.parse(resp.result.toString()) as WeatherItem
+        resolve(data)
+      } else {
+        console.log('获取天气信息失败 error:', JSON.stringify(resp))
+        reject(`获取${time}天气失败`)
+      }*/
+        /*.then( resp => {
+          if(resp.responseCode === 200){
+            console.log('获取天气信息成功', resp.result)
+            //resolve(JSON.parse(resp.result.toString()))
+            let data:WeatherItem = JSON.parse(resp.result.toString()) as WeatherItem
+            resolve(data)
+          } else {
+            console.log('获取天气信息失败 error:', JSON.stringify(resp))
+            reject(`获取${time}天气失败`)
+          }
+        })*/
+    //})
+
+  }
 }
 
 let httpGet = new HttpGet();

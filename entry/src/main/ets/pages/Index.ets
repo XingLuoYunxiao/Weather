@@ -1,12 +1,25 @@
 import { CommonConstants } from '../common/constants/CommonConstants'
 import { CityWeather } from '../view/Record/CityWeather'
 import TopNavBar from '../view/Record/TopNavBar'
+import City from '../viewmodel/City'
+import { geoLocationManager } from '@kit.LocationKit';
+import { router } from '@kit.ArkUI'
+import WeatherItem, { WeatherDetail } from '../viewmodel/WeatherItem'
 
 @Entry
 @Component
 struct WeatherPage {
   @State currentCityIndex: number = 0
-  @State cities: string[] = ['长安区', '其他城市1', '其他城市2'] // 示例城市列表
+  @Provide cities:City[]  = [
+    new City("长安区",'101110102',  new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","24","26","101","多云"), undefined)),
+    new City( "北京",'101010100', new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","30","26","101","阴天"), undefined)),
+  ]
+  //@Provide cities:City[] = (router.getParams() as Record<string,City[]>)['cities'];
+
+  //加载关系型数据库的城市数据
+  aboutToAppear(): void {
+    this.cities =  (router.getParams() as Record<string,City[]>)['cities'];
+  }
 
   build() {
     Stack() {
@@ -14,11 +27,11 @@ struct WeatherPage {
       Scroll() {
         Column() {
           // 城市天气Swiper
-          CityWeather({ cities: this.cities, currentCityIndex: this.currentCityIndex })
+          CityWeather({currentCityIndex: this.currentCityIndex })
         }
       }
       .scrollable(ScrollDirection.Vertical)
-      TopNavBar({ cities: this.cities, currentCityIndex: $currentCityIndex })
+      TopNavBar({currentCityIndex: $currentCityIndex })
 
     }
   }

@@ -2,12 +2,15 @@ import promptAction from '@ohos.promptAction';
 import { CommonConstants } from '../../common/constants/CommonConstants';
 import httpGet from '../../common/util/HttpGet';
 import City from '../../viewmodel/City';
+import cityItem from '../../viewmodel/CityItem'
+import WeatherItem from '../../viewmodel/WeatherItem';
 
 @Component
 export default struct SearchHeader {
   @Link searchText: string;
   @Link searchResults: City[];
   @State isLoading: boolean = false;
+  WeatherData:WeatherItem = new WeatherItem()
 
   async searchCity(text: string) {
     if (!text.trim()) {
@@ -20,7 +23,13 @@ export default struct SearchHeader {
 
     this.isLoading = true;
     try {
+      httpGet.getCityWeatherData("101010100", 'now')
+        /*.then(currentWeather => {
+          this.data.code = currentWeather.code
+          console.log(this.data.code)
+        })*/
       this.searchResults = await httpGet.searchCity(text);
+
       if (this.searchResults.length === 0) {
         promptAction.showToast({
           message: '未找到相关城市',

@@ -3,14 +3,14 @@ import City from '../viewmodel/City'
 import router from '@ohos.router'
 import CityHeader from '../view/City/CityHeader'
 import { CityList } from '../view/City/CityList'
-import CityItem from '../viewmodel/CityItem'
+import WeatherItem, { WeatherDetail } from '../viewmodel/WeatherItem'
 
 @Entry
 @Component
 struct CityManage {
   @Provide cities: City[] = [
-    new City("长安区",'1',  new CityItem(30,'多云', "空气优 31")),
-    new City( "北京",'2', new CityItem(31, '多云', "空气良 51") ),
+    new City("长安区",'101110102',  new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","24","26","101","多云"), undefined)),
+    new City( "北京",'101010100', new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","30","26","101","阴天"), undefined)),
   ]
 
   build() {

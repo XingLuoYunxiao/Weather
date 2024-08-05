@@ -56,7 +56,10 @@ export default struct CityHeader {
         .height(24)
         .padding({ right: 10 })
         .onClick(() => {
-          router.back()
+          router.back({
+            url: "pages/Index",
+            params: {cities:this.cities}
+          })
         })
       Text('城市管理')
         .fontSize(18)

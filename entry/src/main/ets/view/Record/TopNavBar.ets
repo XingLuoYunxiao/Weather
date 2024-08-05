@@ -1,13 +1,14 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
 import router from '@ohos.router'
+import City from '../../viewmodel/City'
 
 @Component
 export default struct TopNavBar {
-  @Prop cities:string[]
   @Link currentCityIndex:number
+  @Consume cities:City[]
   build() {
       Row({space: 10}) {
-        Text(this.cities[this.currentCityIndex])
+        Text(this.cities[this.currentCityIndex].name)
           .fontSize(20)
           .fontWeight(FontWeight.Bold)
         Blank()
