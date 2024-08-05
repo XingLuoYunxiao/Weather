@@ -23,7 +23,7 @@ export default struct SearchHeader {
 
     this.isLoading = true;
     try {
-      httpGet.getCityWeatherData("101010100", 'now')
+      //httpGet.getCityWeatherData("101010100", 'now')
         /*.then(currentWeather => {
           this.data.code = currentWeather.code
           console.log(this.data.code)

@@ -1,10 +1,14 @@
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import PreferencesUtil from '../common/util/PreferenceUtil'
+import { CommonConstants } from '../common/constants/CommonConstants';
 
 export default class EntryAbility extends UIAbility {
-  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
+  async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+    await PreferencesUtil.loadPreference(this.context, CommonConstants.CITY_INFO)
+
   }
 
   onDestroy(): void {

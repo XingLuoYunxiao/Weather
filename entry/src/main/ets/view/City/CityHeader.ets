@@ -2,6 +2,9 @@ import { CommonConstants } from '../../common/constants/CommonConstants'
 import { router } from '@kit.ArkUI'
 import City from '../../viewmodel/City'
 import SearchHeader from './SearchHeader'
+import { preferences } from '@kit.ArkData'
+import PreferenceUtil from '../../common/util/PreferenceUtil'
+
 //import WeatherApi from '../../api/WeatherApi' // 假设这是您的天气API服务
 
 @Component
@@ -56,10 +59,7 @@ export default struct CityHeader {
         .height(24)
         .padding({ right: 10 })
         .onClick(() => {
-          router.back({
-            url: "pages/Index",
-            params: {cities:this.cities}
-          })
+          router.back()
         })
       Text('城市管理')
         .fontSize(18)
@@ -140,6 +140,7 @@ export default struct CityHeader {
               Blank()
               Text(this.isCitySelected(city) ? '已添加' : '+')
                 .fontSize(16)
+                //TODO 颜色可能不对
                 .fontColor(this.isCitySelected(city) ? '#999999' : '#ff226aea')
             }
             .width('100%')
@@ -162,6 +163,7 @@ export default struct CityHeader {
       this.cities = this.cities.filter(c => c.id !== city.id)
     } else {
       this.cities.push(city)
+      PreferenceUtil.putCity('myCityPreferences', city.name, city.id)
     }
     // 触发UI更新
     this.cities = [...this.cities]

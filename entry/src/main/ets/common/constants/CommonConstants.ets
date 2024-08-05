@@ -1,6 +1,8 @@
 export class CommonConstants{
   static readonly RDB_NAME: string = 'Weather.db'
 
+  static readonly CITY_INFO: string = 'myCityPreferences'
+
   static readonly TOPIC_HEIGHT: number = 56
 
   static readonly THOUSANDTH_15: string = '1.5%'; // ‘1.5%’

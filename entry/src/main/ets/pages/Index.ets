@@ -3,8 +3,9 @@ import { CityWeather } from '../view/Record/CityWeather'
 import TopNavBar from '../view/Record/TopNavBar'
 import City from '../viewmodel/City'
 import { geoLocationManager } from '@kit.LocationKit';
-import { router } from '@kit.ArkUI'
 import WeatherItem, { WeatherDetail } from '../viewmodel/WeatherItem'
+import PreferenceUtil from '../common/util/PreferenceUtil'
+
 
 @Entry
 @Component
@@ -16,10 +17,13 @@ struct WeatherPage {
   ]
   //@Provide cities:City[] = (router.getParams() as Record<string,City[]>)['cities'];
 
-  //加载关系型数据库的城市数据
-  aboutToAppear(): void {
-    this.cities =  (router.getParams() as Record<string,City[]>)['cities'];
-  }
+  //加载城市数据
+  /*aboutToAppear(): void {
+    PreferenceUtil.getAllCities(CommonConstants.CITY_INFO)
+      .then(data => {
+          this.cities = data.map(city => new City(city.name, city.id))
+      })
+  }*/
 
   build() {
     Stack() {
@@ -27,11 +31,11 @@ struct WeatherPage {
       Scroll() {
         Column() {
           // 城市天气Swiper
-          CityWeather({currentCityIndex: this.currentCityIndex })
+          CityWeather({currentCityIndex: $currentCityIndex})
         }
       }
       .scrollable(ScrollDirection.Vertical)
-      TopNavBar({currentCityIndex: $currentCityIndex })
+      TopNavBar({currentCityIndex: $currentCityIndex})
 
     }
   }

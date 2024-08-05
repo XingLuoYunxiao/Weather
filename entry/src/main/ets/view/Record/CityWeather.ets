@@ -5,7 +5,7 @@ import Tips from './Tips'
 
 @Component
 export struct CityWeather {
-  @Prop currentCityIndex:number
+  @Link currentCityIndex:number
   @Consume cities:City[]
   build() {
     Swiper() {

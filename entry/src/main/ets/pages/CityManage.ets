@@ -1,6 +1,5 @@
 import { CommonConstants } from '../common/constants/CommonConstants'
 import City from '../viewmodel/City'
-import router from '@ohos.router'
 import CityHeader from '../view/City/CityHeader'
 import { CityList } from '../view/City/CityList'
 import WeatherItem, { WeatherDetail } from '../viewmodel/WeatherItem'

@@ -60,8 +60,8 @@ class HttpGet {
     }
   }
 
-  async getCityWeatherData(cityId: string | undefined, time: string):Promise<WeatherItem> {
-    let httpRequest = http.createHttp()
+  getCityWeatherData(cityId: string | undefined, time: string):Promise<WeatherItem> {
+    /*let httpRequest = http.createHttp()
     try{
       let resp = await httpRequest.request(
         `${this.searchIdUrl}/${time}`,
@@ -98,11 +98,11 @@ class HttpGet {
       }
     } finally {
       httpRequest.destroy();
-    }
-    /*return new Promise(async (resolve, reject) => {
+    }*/
+    return new Promise((resolve, reject) => {
       //创建http请求
       let httpRequest = http.createHttp()
-      let resp = await httpRequest.request(
+      let resp = httpRequest.request(
         `${this.searchIdUrl}/${time}`,
         {
           method: http.RequestMethod.GET,
@@ -112,7 +112,7 @@ class HttpGet {
             gzip: "n"
           }
         }
-      );
+      )/*;
       if( resp.responseCode === 200){
         console.log('获取天气信息成功', resp.result)
         let data:WeatherItem = JSON.parse(resp.result.toString()) as WeatherItem
@@ -121,7 +121,7 @@ class HttpGet {
         console.log('获取天气信息失败 error:', JSON.stringify(resp))
         reject(`获取${time}天气失败`)
       }*/
-        /*.then( resp => {
+        .then( resp => {
           if(resp.responseCode === 200){
             console.log('获取天气信息成功', resp.result)
             //resolve(JSON.parse(resp.result.toString()))
@@ -131,8 +131,8 @@ class HttpGet {
             console.log('获取天气信息失败 error:', JSON.stringify(resp))
             reject(`获取${time}天气失败`)
           }
-        })*/
-    //})
+        })
+    })
 
   }
 }

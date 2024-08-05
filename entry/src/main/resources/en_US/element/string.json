@@ -11,6 +11,18 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "location_permission",
+      "value": "Allows an app to obtain location information when running in the foreground"
+    },
+    {
+      "name": "background_location_permission",
+      "value": "Allows apps to obtain location information while running in the background "
+    },
+    {
+      "name": "fuzzy_location_permission",
+      "value": "Allows apps to obtain obfuscated device location information"
     }
   ]
 }
