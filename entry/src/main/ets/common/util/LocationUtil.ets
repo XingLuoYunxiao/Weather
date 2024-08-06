@@ -3,6 +3,7 @@ import http from '@ohos.net.http';
 import { promptAction } from '@kit.ArkUI';
 import HttpGet from './HttpGet';
 import City from '../../viewmodel/City'
+import WeatherItem from '../../viewmodel/WeatherItem';
 
 
 class Location{
@@ -51,8 +52,8 @@ class LocationUtil {
     return loc
   }
 
-  async getCityInfoFromCoordinates(latitude: number, longitude: number): Promise<City> {
-    let TheCity:City = new City('','')
+  async getCityInfoFromCoordinates(latitude: number, longitude: number): Promise<City<WeatherItem>> {
+    let TheCity:City<WeatherItem> = new City<WeatherItem>('','')
     const location = `${longitude.toFixed(2)},${latitude.toFixed(2)}`
 
     await HttpGet.searchCity(location).then( city => {
@@ -64,7 +65,7 @@ class LocationUtil {
     return TheCity
   }
 
-  async getCurrentCityInfo(): Promise<City> {
+  async getCurrentCityInfo(): Promise<City<WeatherItem>> {
     try {
       const location:Location = await this.getCurrentLocation();
       return await this.getCityInfoFromCoordinates(location.latitude, location.longitude);

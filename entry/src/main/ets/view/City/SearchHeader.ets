@@ -2,13 +2,12 @@ import promptAction from '@ohos.promptAction';
 import { CommonConstants } from '../../common/constants/CommonConstants';
 import httpGet from '../../common/util/HttpGet';
 import City from '../../viewmodel/City';
-import cityItem from '../../viewmodel/CityItem'
 import WeatherItem from '../../viewmodel/WeatherItem';
 
 @Component
 export default struct SearchHeader {
   @Link searchText: string;
-  @Link searchResults: City[];
+  @Link searchResults: City<WeatherItem>[];
   @State isLoading: boolean = false;
   WeatherData:WeatherItem = new WeatherItem()
 

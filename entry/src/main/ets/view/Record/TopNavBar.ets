@@ -1,11 +1,12 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
 import router from '@ohos.router'
 import City from '../../viewmodel/City'
+import WeatherItem from '../../viewmodel/WeatherItem'
 
 @Component
 export default struct TopNavBar {
   @Link currentCityIndex:number
-  @Prop cities:City[]
+  @Prop cities:City<WeatherItem>[]
   build() {
       Row({space: 10}) {
         Text(this.cities[this.currentCityIndex].name)

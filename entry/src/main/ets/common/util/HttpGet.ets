@@ -3,7 +3,7 @@ import City from '../../viewmodel/City';
 import WeatherItem from '../../viewmodel/WeatherItem';
 
 interface CityApiResponse {
-  location: Array<City>;
+  location: Array<City<WeatherItem>>;
 }
 
 
@@ -15,7 +15,7 @@ class HttpGet {
   data:string = ""
 
 
-  async searchCity(cityName: string): Promise<City[]> {
+  async searchCity(cityName: string): Promise<City<WeatherItem>[]> {
     let httpRequest = http.createHttp();
     try {
       let response = await httpRequest.request(
@@ -36,7 +36,7 @@ class HttpGet {
         let responseData = JSON.parse(response.result.toString()) as CityApiResponse;
         console.log('网络：城市搜索成功', JSON.stringify(responseData));
 
-        let cities: City[] = responseData.location.map(loc => new City(loc.name, loc.id));
+        let cities: City<WeatherItem>[] = responseData.location.map(loc => new City<WeatherItem>(loc.name, loc.id));
         return cities;
       } else {
         console.log('城市搜索失败：错误1', JSON.stringify(response));
@@ -60,7 +60,7 @@ class HttpGet {
     }
   }
 
-  getCityWeatherData(cityId: string | undefined, time: string):Promise<WeatherItem> {
+  getCityWeatherData<T>(cityId: string | undefined, time: string):Promise<T> {
     /*let httpRequest = http.createHttp()
     try{
       let resp = await httpRequest.request(
@@ -125,7 +125,7 @@ class HttpGet {
           if(resp.responseCode === 200){
             console.log('获取天气信息成功', resp.result)
             //resolve(JSON.parse(resp.result.toString()))
-            let data:WeatherItem = JSON.parse(resp.result.toString()) as WeatherItem
+            let data:T = JSON.parse(resp.result.toString()) as T
             resolve(data)
           } else {
             console.log('获取天气信息失败 error:', JSON.stringify(resp))

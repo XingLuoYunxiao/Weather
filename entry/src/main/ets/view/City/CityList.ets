@@ -3,16 +3,18 @@ import HttpGet from '../../common/util/HttpGet'
 import PreferenceUtil from '../../common/util/PreferenceUtil'
 import City from '../../viewmodel/City'
 import WeatherItem from '../../viewmodel/WeatherItem'
+import { router } from '@kit.ArkUI'
 
 @Component
 export struct CityList {
+  @StorageLink('currentIndex') currentCityIndex:number = 0
   @Watch('loadCities')
-  @Consume cities: City[]
+  @Consume cities: City<WeatherItem>[]
 
   build() {
     List({space:10}){
       ForEach(this.cities,
-        (city:City) => {
+        (city:City<WeatherItem>, index) => {
           ListItem(){
             Row(){
               Column({space:20}){
@@ -46,11 +48,18 @@ export struct CityList {
             .backgroundColor('#ff2ca3e2') //TODO 需要根据天气进行卡片颜色的更新
           }
           .swipeAction({end: this.deleteButton(city.name)})
+          .onClick( () => {
+            this.currentCityIndex = index
+            router.back({
+              url:'pages/Index'
+            })
+          })
         })
     }
     .alignListItem(ListItemAlign.Center)
     .width('100%')
     .height('100%')
+    .margin({left:20})
   }
 
   //删除一个城市

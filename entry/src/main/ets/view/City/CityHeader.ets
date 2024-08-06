@@ -4,16 +4,17 @@ import City from '../../viewmodel/City'
 import SearchHeader from './SearchHeader'
 import { preferences } from '@kit.ArkData'
 import PreferenceUtil from '../../common/util/PreferenceUtil'
+import WeatherItem from '../../viewmodel/WeatherItem'
 
 //import WeatherApi from '../../api/WeatherApi' // 假设这是您的天气API服务
 
 @Component
 export default struct CityHeader {
   @State isShow: boolean = false
-  @Consume cities: City[]
+  @Consume cities: City<WeatherItem>[]
   @State searchText: string = ''
-  @State searchResults: City[] = []
-  @State hotCities: City[] = [
+  @State searchResults: City<WeatherItem>[] = []
+  @State hotCities: City<WeatherItem>[] = [
     new City('北京', '101010100'),
     new City('上海', '101020100'),
     new City('深圳', '101280601'),
@@ -32,7 +33,7 @@ export default struct CityHeader {
     new City('杭州', '101210101'),
     new City('厦门', '101230201')
   ]
-  @State internationalCities: City[] = [
+  @State internationalCities: City<WeatherItem>[] = [
     new City( '纽约','US_NY0996' ),
     new City( '巴黎','FR_PA0001' ),
     new City( '伦敦','GB_LO0001'),
@@ -104,13 +105,13 @@ export default struct CityHeader {
     .padding(20)
   }
 
-  @Builder showHotCity(title: string, cities: City[]) {
+  @Builder showHotCity(title: string, cities: City<WeatherItem>[]) {
     Column({ space: 10 }) {
       Text(title)
         .fontSize(14)
         .fontColor('#ff7c7878')
       Flex({ wrap: FlexWrap.Wrap, justifyContent: FlexAlign.Start }) {
-        ForEach(cities, (city: City) => {
+        ForEach(cities, (city: City<WeatherItem>) => {
           Text(city.name)
             .fontSize(16)
             .backgroundColor(this.isCitySelected(city) ? '#ff226aea' : '#f5f5f5')
@@ -132,7 +133,7 @@ export default struct CityHeader {
         .fontSize(14)
         .fontColor('#ff7c7878')
       List() {
-        ForEach(this.searchResults, (city: City) => {
+        ForEach(this.searchResults, (city: City<WeatherItem>) => {
           ListItem() {
             Row() {
               Text(city.name)
@@ -156,11 +157,11 @@ export default struct CityHeader {
     }
   }
 
-  isCitySelected(city: City): boolean {
+  isCitySelected(city: City<WeatherItem>): boolean {
     return this.cities.some(c => c.id === city.id)
   }
 
-  toggleCitySelection(city: City) {
+  toggleCitySelection(city: City<WeatherItem>) {
     if (this.isCitySelected(city)) {
       this.cities = this.cities.filter(c => c.id !== city.id)
     } else {

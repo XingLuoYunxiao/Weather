@@ -1,12 +1,12 @@
 import CityItem from './CityItem'
 import WeatherItem from './WeatherItem'
 
-export default class City{
+export default class City<Item>{
   name:string
   id?: string
-  detail?: WeatherItem
+  detail?:Item
 
-  constructor(name:string,id?:string, detail?:WeatherItem) {
+  constructor(name:string,id?:string, detail?:Item) {
     this.name = name
     this.id = id
     this.detail = detail

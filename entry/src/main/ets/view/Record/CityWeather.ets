@@ -1,15 +1,16 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
 import City from '../../viewmodel/City'
+import WeatherItem from '../../viewmodel/WeatherItem'
 import The24HoursDetail from './The24HoursDetail'
 import Tips from './Tips'
 
 @Component
 export struct CityWeather {
   @Link currentCityIndex:number
-  @Prop cities:City[]
+  @Prop cities:City<WeatherItem>[]
   build() {
     Swiper() {
-      ForEach(this.cities, (city: City, index) => {
+      ForEach(this.cities, (city: City<WeatherItem>, index) => {
         CityWeatherContent({ city: city })
       })
     }
@@ -25,7 +26,7 @@ export struct CityWeather {
 
 @Component
 struct CityWeatherContent {
-  @Prop city: City
+  @Prop city: City<WeatherItem>
 
   build() {
     Column() {
