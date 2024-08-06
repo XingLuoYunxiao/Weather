@@ -1,5 +1,6 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
 import HttpGet from '../../common/util/HttpGet'
+import PreferenceUtil from '../../common/util/PreferenceUtil'
 import City from '../../viewmodel/City'
 import WeatherItem from '../../viewmodel/WeatherItem'
 
@@ -28,12 +29,12 @@ export struct CityList {
               Blank()
               Column({space:20}){
                 if(city.detail)
-                Text(`${city.detail.weather?.temp}°`)
+                Text(`${city.detail.now?.temp}°`)
                   .fontSize(20)
                   .fontWeight(CommonConstants.FONT_WEIGHT_700)
                   .fontColor(Color.White)
                 if(city.detail)
-                Text(city.detail.weather?.text)
+                Text(city.detail.now?.text)
                   .fontSize(14)
                   .fontColor(Color.White)
               }
@@ -44,15 +45,25 @@ export struct CityList {
             .borderRadius(15)
             .backgroundColor('#ff2ca3e2') //TODO 需要根据天气进行卡片颜色的更新
           }
-          .swipeAction({end: this.deleteButton(city.id)})
+          .swipeAction({end: this.deleteButton(city.name)})
         })
     }
     .alignListItem(ListItemAlign.Center)
     .width('100%')
     .height('100%')
   }
-  deleteButton(id: string){
 
+  //删除一个城市
+  @Builder
+  deleteButton(name: string){
+    Image($r('app.media.delete_icon'))
+      .fillColor(Color.Red)
+      .width('20')
+      .height('20')
+      .onClick( () => {
+        this.cities = this.cities.filter(c => c.name !== name)
+        PreferenceUtil.removeCity(CommonConstants.CITY_INFO, name)
+      })
   }
 
   //TODO 待完成
@@ -60,8 +71,10 @@ export struct CityList {
     let WeatherDetail:WeatherItem = new WeatherItem()
     for(let i = 0; i < this.cities.length; i++){
       if( this.cities[i].id != undefined)
-      WeatherDetail = await HttpGet.getCityWeatherData(this.cities[i].id, "now")
-      this.cities[i].detail = WeatherDetail
+      {
+        WeatherDetail = await HttpGet.getCityWeatherData(this.cities[i].id, "now")
+        this.cities[i].detail = WeatherDetail
+      }
     }
   }
 }

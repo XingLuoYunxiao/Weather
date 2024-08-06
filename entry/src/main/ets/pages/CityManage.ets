@@ -3,14 +3,20 @@ import City from '../viewmodel/City'
 import CityHeader from '../view/City/CityHeader'
 import { CityList } from '../view/City/CityList'
 import WeatherItem, { WeatherDetail } from '../viewmodel/WeatherItem'
+import PreferenceUtil from '../common/util/PreferenceUtil'
 
 @Entry
 @Component
 struct CityManage {
-  @Provide cities: City[] = [
+  /*@Provide cities: City[] = [
     new City("长安区",'101110102',  new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","24","26","101","多云"), undefined)),
     new City( "北京",'101010100', new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","30","26","101","阴天"), undefined)),
-  ]
+  ]*/
+  @Provide cities: City[] = []
+
+  async aboutToAppear(): Promise<void> {
+    this.cities = await PreferenceUtil.getAllCities(CommonConstants.CITY_INFO);
+  }
 
   build() {
     Column(){

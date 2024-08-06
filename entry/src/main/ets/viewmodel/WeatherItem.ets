@@ -2,14 +2,14 @@ export default class WeatherItem{
   code?:string
   updateTime?: string
   fxLink?: string
-  weather?:WeatherDetail
+  now?:WeatherDetail
   refer?: Refer
 
   constructor(code?: string, updateTime?: string, fxLink?: string, weather?: WeatherDetail, refer?: Refer) {
     this.code = code
     this.updateTime = updateTime
     this.fxLink = fxLink
-    this.weather = weather
+    this.now = weather
     this.refer = refer
   }
 

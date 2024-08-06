@@ -151,6 +151,8 @@ export default struct CityHeader {
           }
         })
       }
+      .width('100%')
+      .height('100%')
     }
   }
 
@@ -163,7 +165,7 @@ export default struct CityHeader {
       this.cities = this.cities.filter(c => c.id !== city.id)
     } else {
       this.cities.push(city)
-      PreferenceUtil.putCity('myCityPreferences', city.name, city.id)
+      PreferenceUtil.putCity(CommonConstants.CITY_INFO, city.name, city.id)
     }
     // 触发UI更新
     this.cities = [...this.cities]

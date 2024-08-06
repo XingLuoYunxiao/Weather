@@ -6,7 +6,7 @@ import Tips from './Tips'
 @Component
 export struct CityWeather {
   @Link currentCityIndex:number
-  @Consume cities:City[]
+  @Prop cities:City[]
   build() {
     Swiper() {
       ForEach(this.cities, (city: City, index) => {
@@ -32,10 +32,10 @@ struct CityWeatherContent {
       // 这里放置天气详情内
       Text(this.city.name + ' 天气详情')
       Column({space: 20}){
-        Text(`${this.city.detail?.weather?.temp}°`)
+        Text(`${this.city.detail?.now?.temp}°`)
           .fontSize(70)
           .fontWeight(CommonConstants.FONT_WEIGHT_700)
-        Text(`${this.city.detail?.weather?.text} 23°/35° 空气优`)
+        Text(`${this.city.detail?.now?.text} 23°/35° 空气优`)
       }
       .margin(50)
       //提示框

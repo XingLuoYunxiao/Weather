@@ -1,12 +1,30 @@
-import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
+import { abilityAccessCtrl, AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import PreferencesUtil from '../common/util/PreferenceUtil'
 import { CommonConstants } from '../common/constants/CommonConstants';
+import Logger from '../common/util/Logger';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+const TAG: string = 'EntryAbility';
 
 export default class EntryAbility extends UIAbility {
   async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+    Logger.info(TAG, `[Demo] EntryAbility onCreate`);
+    let atManager = abilityAccessCtrl.createAtManager();
+    try {
+      atManager.requestPermissionsFromUser(this.context,
+        ['ohos.permission.INTERNET', 'ohos.permission.LOCATION', 'ohos.permission.APPROXIMATELY_LOCATION'])
+        .then((data) => {
+          Logger.info(TAG, `data: ${JSON.stringify(data)}`);
+        })
+        .catch((err: BusinessError) => {
+          Logger.error(TAG, `err: ${JSON.stringify(err)}`);
+        })
+    } catch (err) {
+      Logger.error(TAG, `catch err->${JSON.stringify(err)}`);
+    }
     await PreferencesUtil.loadPreference(this.context, CommonConstants.CITY_INFO)
 
   }

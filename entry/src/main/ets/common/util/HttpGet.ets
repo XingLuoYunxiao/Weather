@@ -99,7 +99,7 @@ class HttpGet {
     } finally {
       httpRequest.destroy();
     }*/
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       //创建http请求
       let httpRequest = http.createHttp()
       let resp = httpRequest.request(
@@ -121,7 +121,7 @@ class HttpGet {
         console.log('获取天气信息失败 error:', JSON.stringify(resp))
         reject(`获取${time}天气失败`)
       }*/
-        .then( resp => {
+      await resp.then( resp => {
           if(resp.responseCode === 200){
             console.log('获取天气信息成功', resp.result)
             //resolve(JSON.parse(resp.result.toString()))

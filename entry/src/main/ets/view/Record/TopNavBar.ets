@@ -5,7 +5,7 @@ import City from '../../viewmodel/City'
 @Component
 export default struct TopNavBar {
   @Link currentCityIndex:number
-  @Consume cities:City[]
+  @Prop cities:City[]
   build() {
       Row({space: 10}) {
         Text(this.cities[this.currentCityIndex].name)
