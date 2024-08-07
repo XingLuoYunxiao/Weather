@@ -1,4 +1,3 @@
-import CityItem from './CityItem'
 import WeatherItem from './WeatherItem'
 
 export default class City<Item>{

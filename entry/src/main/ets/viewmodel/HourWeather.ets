@@ -1,4 +1,4 @@
-export class HourWeather {
+export default  class HourWeather {
   fxTime?: string
   temp?: string
   icon?: string
@@ -14,7 +14,8 @@ export class HourWeather {
   cloud?: string
   dew?: string
 
-  constructor(fxTime: string, temp: string, icon: string, text: string, wind360: string, windDir: string,
+
+  /*constructor(fxTime: string, temp: string, icon: string, text: string, wind360: string, windDir: string,
     windScale: string, windSpeed: string, humidity: string, pop: string, precip: string, pressure: string,
     cloud: string, dew: string) {
     this.fxTime = fxTime
@@ -31,7 +32,7 @@ export class HourWeather {
     this.pressure = pressure
     this.cloud = cloud
     this.dew = dew
-  }
+  }*/
 
   
 }

@@ -1,15 +1,22 @@
+import DayWeather from './DayWeather'
+import HourWeather  from './HourWeather'
+
 export default class WeatherItem{
   code?:string
   updateTime?: string
   fxLink?: string
   now?:WeatherDetail
+  hourly?:HourWeather[]
+  daily?:DayWeather[]
   refer?: Refer
 
-  constructor(code?: string, updateTime?: string, fxLink?: string, weather?: WeatherDetail, refer?: Refer) {
+  constructor(code?: string, updateTime?: string, fxLink?: string, weather?: WeatherDetail, hourly?:HourWeather[], daily?:DayWeather[], refer?: Refer) {
     this.code = code
     this.updateTime = updateTime
     this.fxLink = fxLink
     this.now = weather
+    this.hourly = hourly
+    this.daily = daily
     this.refer = refer
   }
 

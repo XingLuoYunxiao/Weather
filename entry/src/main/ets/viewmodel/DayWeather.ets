@@ -1,4 +1,4 @@
-export class WeatherDetail {
+export default  class WeatherDetail {
   fxDate?:string
   sunrise?: string
   moonrise?: string

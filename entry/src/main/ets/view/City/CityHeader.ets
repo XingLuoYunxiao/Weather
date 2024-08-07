@@ -5,6 +5,7 @@ import SearchHeader from './SearchHeader'
 import { preferences } from '@kit.ArkData'
 import PreferenceUtil from '../../common/util/PreferenceUtil'
 import WeatherItem from '../../viewmodel/WeatherItem'
+import HttpGet from '../../common/util/HttpGet'
 
 //import WeatherApi from '../../api/WeatherApi' // 假设这是您的天气API服务
 
@@ -80,7 +81,11 @@ export default struct CityHeader {
           showClose: true,
           enableOutsideInteractive: false,
           dragBar: true,
-        });
+          /*shouldDismiss:(async () => {
+            this.loadCities()
+            this.isShow = !this.isShow
+          })*/
+        })
     }
     .width('100%')
     .height(CommonConstants.TOPIC_HEIGHT)
@@ -141,7 +146,6 @@ export default struct CityHeader {
               Blank()
               Text(this.isCitySelected(city) ? '已添加' : '+')
                 .fontSize(16)
-                //TODO 颜色可能不对
                 .fontColor(this.isCitySelected(city) ? '#999999' : '#ff226aea')
             }
             .width('100%')
@@ -164,6 +168,7 @@ export default struct CityHeader {
   toggleCitySelection(city: City<WeatherItem>) {
     if (this.isCitySelected(city)) {
       this.cities = this.cities.filter(c => c.id !== city.id)
+      PreferenceUtil.removeCity(CommonConstants.CITY_INFO, city.name)
     } else {
       this.cities.push(city)
       PreferenceUtil.putCity(CommonConstants.CITY_INFO, city.name, city.id)
@@ -172,6 +177,15 @@ export default struct CityHeader {
     this.cities = [...this.cities]
   }
 
-
+  async loadCities() {
+    let WeatherDetail:WeatherItem = new WeatherItem()
+    for(let i = 0; i < this.cities.length; i++){
+      if( this.cities[i].id != undefined)
+      {
+        WeatherDetail = await HttpGet.getCityWeatherData(this.cities[i].id, "now")
+        this.cities[i].detail = WeatherDetail
+      }
+    }
+  }
 }
 

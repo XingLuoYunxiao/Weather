@@ -11,6 +11,7 @@ export struct CityList {
   @Watch('loadCities')
   @Consume cities: City<WeatherItem>[]
 
+
   build() {
     List({space:10}){
       ForEach(this.cities,
@@ -59,7 +60,6 @@ export struct CityList {
     .alignListItem(ListItemAlign.Center)
     .width('100%')
     .height('100%')
-    .margin({left:20})
   }
 
   //删除一个城市
@@ -69,6 +69,7 @@ export struct CityList {
       .fillColor(Color.Red)
       .width('20')
       .height('20')
+      .margin({left:20})
       .onClick( () => {
         this.cities = this.cities.filter(c => c.name !== name)
         PreferenceUtil.removeCity(CommonConstants.CITY_INFO, name)

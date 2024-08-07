@@ -1,6 +1,7 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
 import City from '../../viewmodel/City'
 import WeatherItem from '../../viewmodel/WeatherItem'
+import The15DayDetail from './The15DayDetail'
 import The24HoursDetail from './The24HoursDetail'
 import Tips from './Tips'
 
@@ -43,7 +44,8 @@ struct CityWeatherContent {
       Tips()
       //24小时的天气预报
       The24HoursDetail({city: this.city})
-
+      //15天的天气预报
+      The15DayDetail({city: this.city})
 
       // ... 其他天气信息组件
 

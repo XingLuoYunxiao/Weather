@@ -18,8 +18,12 @@ struct WeatherPage {
   @State cities:City<WeatherItem>[]  = []
   //@Provide cities:City[] = (router.getParams() as Record<string,City[]>)['cities'];
 
-  async aboutToAppear(): Promise<void> {
+  /*async aboutToAppear(): Promise<void> {
     await this.loadCityData();
+  }*/
+
+  async onPageShow(): Promise<void> {
+    await this.loadCityData()
   }
 
   async loadCityData() {
