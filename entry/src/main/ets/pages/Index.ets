@@ -40,7 +40,7 @@ struct WeatherPage {
       }
       // 更新cities数组
       let data = savedCities.map(async city => {
-        let NowWeather:WeatherItem = await HttpGet.getCityWeatherData(city.id, 'now') as WeatherItem
+        let NowWeather:WeatherItem = await HttpGet.getCityWeatherData('weather', city.id, 'now') as WeatherItem
         return  new City(city.name, city.id, NowWeather)
       });
       // 使用Promise.all等待所有结果解析
@@ -70,11 +70,14 @@ struct WeatherPage {
             // 城市天气页面
             CityWeather({ currentCityIndex: $currentCityIndex, cities: this.cities })
           }
+          .width('100%')
         }
         .scrollable(ScrollDirection.Vertical)
         // 最上方固定导航栏
         TopNavBar({ currentCityIndex: $currentCityIndex, cities: this.cities })
       }
+      .width('100%')
+      .backgroundColor('#4d2c4166')
     } else {
       // 显示加载中提示
       Text("加载中...")

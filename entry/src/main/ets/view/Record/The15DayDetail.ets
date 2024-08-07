@@ -21,15 +21,15 @@ function formatDate(dateString: string): string {
 @Component
 export default struct The15DayDetail {
   @Prop city:City<WeatherItem>
-  @State DayWeather:WeatherItem = new WeatherItem()
+  @Prop DayWeather:WeatherItem
 
-  async aboutToAppear(): Promise<void> {
-    await HttpGet.getCityWeatherData<WeatherItem>(this.city.id, '7d')
+  /*async aboutToAppear(): Promise<void> {
+    await HttpGet.getCityWeatherData<WeatherItem>('weather', this.city.id, '7d')
       .then( (result) => {
         if(result.daily)
           this.DayWeather = new WeatherItem(result.code, result.updateTime,result.fxLink, undefined,  undefined,result.daily, result.refer)
       })
-  }
+  }*/
 
   build() {
     Row(){
@@ -38,7 +38,7 @@ export default struct The15DayDetail {
           ListItem(){
             Row(){
               Text(`${data.fxDate ? formatDate(data.fxDate) : ''}`)
-                .fontSize(14)
+                .fontSize(16)
                 .fontColor(Color.White)
               Blank()
               Image($r(`app.media.${data.iconDay}`))
@@ -46,7 +46,7 @@ export default struct The15DayDetail {
                 .height(20)
                 .margin({right:50})
               Text(`${data.tempMin}°/${data.tempMax}°`)
-                .fontSize(14)
+                .fontSize(16)
                 .fontWeight(CommonConstants.FONT_WEIGHT_500)
                 .fontColor(Color.White)
             }
@@ -63,6 +63,5 @@ export default struct The15DayDetail {
       .padding({left:20,right:20,top:10,bottom:10})
     }
     .width('90%')
-    .height(200)
   }
 }

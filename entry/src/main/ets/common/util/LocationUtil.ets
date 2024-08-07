@@ -18,7 +18,7 @@ class Location{
 }
 
 class LocationUtil {
-  private  API_KEY = 'f6b4c31d80db485aabdbea8277545500';
+  private  API_KEY = '5936dc34239542f099986a0bf48280c4';
   private  GEOCODING_API_URL = 'https://geoapi.qweather.com/v2/city/lookup';
 
   async getCurrentLocation(): Promise<Location> {

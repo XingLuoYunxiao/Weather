@@ -5,7 +5,7 @@ export default struct Tips {
   build() {
     Swiper() {
       this.tip('降雨提醒','1小时后降雨')
-      this.tip('宜穿短袖','潮湿闷热。。。。。。。。。。。。。。。')
+      this.tip('宜穿短袖','潮湿闷热')
       this.tip('空气优','空气很好，可以正常活动')
 
     }

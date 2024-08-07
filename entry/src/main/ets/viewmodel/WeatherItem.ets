@@ -20,6 +20,7 @@ export default class WeatherItem{
     this.refer = refer
   }
 
+
 }
 
 export class WeatherDetail{

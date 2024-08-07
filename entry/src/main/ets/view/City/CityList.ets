@@ -76,13 +76,13 @@ export struct CityList {
       })
   }
 
-  //TODO 待完成
+  //加载天气信息
   async loadCities(name:string) {
     let WeatherDetail:WeatherItem = new WeatherItem()
     for(let i = 0; i < this.cities.length; i++){
       if( this.cities[i].id != undefined)
       {
-        WeatherDetail = await HttpGet.getCityWeatherData(this.cities[i].id, "now")
+        WeatherDetail = await HttpGet.getCityWeatherData('weather',this.cities[i].id, "now")
         this.cities[i].detail = WeatherDetail
       }
     }

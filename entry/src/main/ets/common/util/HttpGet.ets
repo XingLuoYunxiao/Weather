@@ -9,9 +9,9 @@ interface CityApiResponse {
 
 class HttpGet {
   private searchCityUrl: string = 'https://geoapi.qweather.com/v2/city/lookup';
-  private searchIdUrl: string = 'https://devapi.qweather.com/v7/weather';
+  private searchIdUrl: string = 'https://devapi.qweather.com/v7/';
   //private searchIdUrl: string = 'https://devapi.qweather.com/v7/grid-weather/';
-  private key: string = 'f6b4c31d80db485aabdbea8277545500';
+  private key: string = '5936dc34239542f099986a0bf48280c4';
   data:string = ""
 
 
@@ -60,15 +60,16 @@ class HttpGet {
     }
   }
 
-  getCityWeatherData<T>(cityId: string | undefined, time: string):Promise<T> {
+  getCityWeatherData<T>(type:string, cityId: string | undefined, time: string, params?:string):Promise<T> {
     return new Promise(async (resolve, reject) => {
       //创建http请求
       let httpRequest = http.createHttp()
       let resp = httpRequest.request(
-        `${this.searchIdUrl}/${time}`,
+        `${this.searchIdUrl}/${type}/${time}`,
         {
           method: http.RequestMethod.GET,
           extraData: {
+            type:params,
             location: cityId,
             key: this.key,
             gzip: "n"
@@ -77,14 +78,14 @@ class HttpGet {
       )
       await resp.then( resp => {
           if(resp.responseCode === 200){
-            console.log('获取天气信息成功', resp.result)
+            console.log('获取信息成功', resp.result)
             //resolve(JSON.parse(resp.result.toString()))
             let data:T = JSON.parse(resp.result.toString()) as T
             //if( data instanceof WeatherItem){
               resolve(data)
             //}
           } else {
-            console.log('获取天气信息失败 error:', JSON.stringify(resp))
+            console.log('获取信息失败 error:', JSON.stringify(resp))
             reject(`获取${time}天气失败`)
           }
         })

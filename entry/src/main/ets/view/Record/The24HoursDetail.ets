@@ -14,30 +14,22 @@ function extractTime(dateTimeString: string): string {
 @Component
 export default struct The24HoursDetail {
   @Prop city:City<WeatherItem>
-  @State HourWeather:WeatherItem = new WeatherItem()
-
-  async aboutToAppear(): Promise<void> {
-    await HttpGet.getCityWeatherData<WeatherItem>(this.city.id, '24h')
-      .then( (result) => {
-        if(result.hourly)
-        this.HourWeather = new WeatherItem(result.code, result.updateTime,result.fxLink, undefined, result.hourly, undefined, result.refer)
-      })
-  }
+  @Prop HourWeather:WeatherItem
 
   build() {
     Row(){
-      List({space:10}){
+      List({space:30}){
         ForEach(this.HourWeather.hourly, (data:HourWeather) => {
           ListItem(){
-            Column({space:5}){
+            Column({space:10}){
               Text(`${data.fxTime ? extractTime(data.fxTime) : ''}`)
-                .fontSize(12)
+                .fontSize(14)
                 .fontColor(Color.White)
               Image($r(`app.media.${data.icon}`))
                 .width(20)
                 .height(20)
               Text(`${data.temp}°`)
-                .fontSize(14)
+                .fontSize(16)
                 .fontWeight(CommonConstants.FONT_WEIGHT_500)
                 .fontColor(Color.White)
             }
@@ -46,12 +38,12 @@ export default struct The24HoursDetail {
       }
       .width('100%')
       .listDirection(Axis.Horizontal)
-      .backgroundColor("#33000000")
+      .backgroundColor('rgba(0, 0, 0, 0.3)')
       .borderRadius(10)
       .margin({top:20})
       .padding({left:20,right:20,top:10,bottom:10})
     }
     .width('90%')
-    .height(100)
+    .height(130)
   }
 }
