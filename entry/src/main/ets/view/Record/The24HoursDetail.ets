@@ -13,7 +13,6 @@ function extractTime(dateTimeString: string): string {
 
 @Component
 export default struct The24HoursDetail {
-  @Prop city:City<WeatherItem>
   @Prop HourWeather:WeatherItem
 
   build() {

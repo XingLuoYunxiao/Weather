@@ -35,13 +35,13 @@ class Refer{
 
 export class LifeItem{
   data: string
-  type: number
+  type: string
   name: string
-  level: number
+  level: string
   category: string
   text: string
 
-  constructor(data: string, type: number, name: string, level: number, category: string, text: string) {
+  constructor(data: string, type: string, name: string, level: string, category: string, text: string) {
     this.data = data
     this.type = type
     this.name = name
@@ -53,21 +53,23 @@ export class LifeItem{
 
 export class AirQuality{
   pubTime:string
-  aqi:number
-  level: number
+  aqi:string
+  level: string
+  category: string
   primary: string
-  pm10: number
-  pm2p5: number
-  no2: number
-  so2: number
-  co: number
-  o3: number
+  pm10: string
+  pm2p5: string
+  no2: string
+  so2: string
+  co: string
+  o3: string
 
-  constructor(pubTime: string, aqi: number, level: number, primary: string, pm10: number, pm2p5: number, no2: number,
-    so2: number, co: number, o3: number) {
+  constructor(pubTime: string, aqi: string, level: string, category: string, primary: string, pm10: string, pm2p5: string, no2: string,
+    so2: string, co: string, o3: string) {
     this.pubTime = pubTime
     this.aqi = aqi
     this.level = level
+    this.category = category
     this.primary = primary
     this.pm10 = pm10
     this.pm2p5 = pm2p5

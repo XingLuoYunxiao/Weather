@@ -1,8 +1,11 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
 import HttpGet from '../../common/util/HttpGet'
 import City from '../../viewmodel/City'
+import OtherItem from '../../viewmodel/OtherItem'
 import WeatherItem from '../../viewmodel/WeatherItem'
 import LifeAdvice from './LifeAdvice'
+import OtherWeatherDetail from './OtherWeatherDetail'
+import ProgressUsage from './ProgressUsage'
 import The15DayDetail from './The15DayDetail'
 import The24HoursDetail from './The24HoursDetail'
 import Tips from './Tips'
@@ -36,6 +39,9 @@ struct CityWeatherContent {
   @Prop city: City<WeatherItem>
   @State HourWeather:WeatherItem = new WeatherItem()
   @State DayWeather:WeatherItem = new WeatherItem()
+  @State warnings: OtherItem = new OtherItem()
+  @State lifeAdvice:OtherItem = new OtherItem()
+  @State otherItem:OtherItem = new OtherItem()
 
 
   async aboutToAppear(): Promise<void> {
@@ -49,6 +55,24 @@ struct CityWeatherContent {
       .then( (result) => {
         if(result.daily)
           this.DayWeather = new WeatherItem(result.code, result.updateTime,result.fxLink, undefined, this.HourWeather.hourly ,result.daily, result.refer)
+      })
+
+    await HttpGet.getCityWeatherData<OtherItem>('indices', this.city.id, '1d', '1,2,3,4,6,8,9,15,16')
+      .then( (result) => {
+        if(result.daily)
+          this.lifeAdvice = new OtherItem(result.code, result.updateTime,result.fxLink, undefined, undefined,result.daily, result.refer)
+      })
+
+    await HttpGet.getCityWeatherData<OtherItem>('warning', this.city.id, 'now')
+      .then( (result) => {
+        if(result.warning)
+          this.warnings = new OtherItem(result.code, result.updateTime,result.fxLink, result.warning, undefined, undefined, result.refer)
+      })
+
+    await HttpGet.getCityWeatherData<OtherItem>('air', this.city.id, 'now')
+      .then( (result) => {
+        if(result.now)
+          this.otherItem = new OtherItem(result.code, result.updateTime,result.fxLink, this.warnings.warning, result.now, this.lifeAdvice.daily , result.refer)
       })
   }
 
@@ -69,100 +93,27 @@ struct CityWeatherContent {
         .alignItems(HorizontalAlign.Center)
         .margin(50)
         //提示框
-        Tips()
+        Tips({otherItem: this.otherItem})
         //24小时的天气预报
-        The24HoursDetail({city: this.city, HourWeather:this.HourWeather})
+        The24HoursDetail({ HourWeather:this.HourWeather})
         //15天的天气预报
-        The15DayDetail({city: this.city, DayWeather: this.DayWeather})
+        The15DayDetail({ DayWeather: this.DayWeather})
+        //空气质量
+        ProgressUsage({otherItem:this.otherItem})
         //其他天气信息组件
         OtherWeatherDetail({city: this.city, DayWeather: this.DayWeather})
         //生活建议指数
-        LifeAdvice({cityId: this.city.id})
+        LifeAdvice({ lifeAdvice: this.lifeAdvice})
       }
       .margin({top:CommonConstants.TOPIC_HEIGHT})
       .width('100%')
-      .height('200%')
+      .height('300%')
     } else {
       Text('加载中')
     }
 
   }
 
-  @Builder OtherWeatherDetail(){
-
-  }
-
 
 }
 
-//一些其他的天气指数
-@Component
-struct OtherWeatherDetail{
-  @Prop city:City<WeatherItem>
-  @Prop DayWeather:WeatherItem
-
-  build() {
-    Grid(){
-      GridItem(){
-        if(this.DayWeather.daily && this.DayWeather.daily[0].uvIndex)
-          this.Card($r('app.media.uvIndex'), '紫外线', this.DayWeather.daily[0].uvIndex, '级')
-      }
-      GridItem(){
-        if( this.city.detail?.now?.feelsLike)
-          this.Card($r('app.media.feelsLike'), '体感温度', this.city.detail?.now?.feelsLike, '°')
-      }
-      GridItem(){
-        if( this.city.detail?.now?.humidity)
-          this.Card($r('app.media.humidity'), '湿度', this.city.detail?.now?.humidity, '%')
-      }
-      GridItem(){
-        if( this.city.detail?.now?.windDir && this.city.detail.now.windSpeed)
-          this.Card($r('app.media.wind'), this.city.detail?.now?.windDir, this.city.detail?.now?.windSpeed, '千米/小时')
-      }
-      GridItem(){
-        if( this.city.detail?.now?.pressure)
-          this.Card($r('app.media.pressure'), '气压', this.city.detail?.now?.pressure, '百帕')
-      }
-      GridItem(){
-        if( this.city.detail?.now?.vis)
-          this.Card($r('app.media.vis'), '能见度', this.city.detail?.now?.vis, '千米')
-      }
-    }
-    .width('90%')
-    .margin({top:30})
-    .height(240)
-    .columnsTemplate('1fr 1fr 1fr')
-    .columnsGap(10)
-    .rowsTemplate('1fr 1fr')
-    .rowsGap(8)
-  }
-
-  @Builder Card(image:Resource, text:string, data:string, unit:string){
-    Column({space:10}){
-      Image(image)
-        .width(30)
-        .height(30)
-        .fillColor(Color.White)
-      Text(text)
-        .fontSize(14)
-        .fontColor($r('app.color.text_fontcolor'))
-      Row(){
-        Text(`${data} `)
-          .fontSize(16)
-          .fontWeight(CommonConstants.FONT_WEIGHT_500)
-          .fontColor(Color.White)
-        Text(unit)
-          .fontSize(12)
-          .fontWeight(CommonConstants.FONT_WEIGHT_500)
-          .fontColor(Color.White)
-      }
-      .justifyContent(FlexAlign.Center)
-      .width(80)
-    }
-    .width(100)
-    .backgroundColor($r('app.color.card_background'))
-    .borderRadius(10)
-    .padding(20)
-
-  }
-}

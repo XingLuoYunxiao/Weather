@@ -4,16 +4,8 @@ import { CommonConstants } from '../../common/constants/CommonConstants'
 
 @Component
 export default struct LifeAdvice {
-  @Prop cityId:string
-  @State lifeAdvice:OtherItem = new OtherItem()
+  @Prop lifeAdvice:OtherItem = new OtherItem()
 
-  async aboutToAppear(): Promise<void> {
-    await HttpGet.getCityWeatherData<OtherItem>('indices', this.cityId, '1d', '1,2,3,4,6,8,9,15,16')
-      .then( (result) => {
-        if(result.daily)
-          this.lifeAdvice = new OtherItem(result.code, result.updateTime,result.fxLink, undefined, undefined,result.daily, result.refer)
-      })
-  }
   //生活建议
   build() {
     Column(){
@@ -31,7 +23,7 @@ export default struct LifeAdvice {
       Divider()
         .color($r('app.color.text_fontcolor'))
       Grid(){
-        ForEach(this.lifeAdvice.daily, (data:LifeItem, index) => {
+        ForEach(this.lifeAdvice.daily, (data:LifeItem) => {
           GridItem(){
             this.Card($r(`app.media.life${data.type}`), data.name, data.category)
           }
