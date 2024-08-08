@@ -3,6 +3,14 @@
     {
       "name": "start_window_background",
       "value": "#FFFFFF"
+    },
+    {
+      "name": "card_background",
+      "value": "#4880CA"
+    },
+    {
+      "name": "text_fontcolor",
+      "value": "#FFC0CBD8"
     }
   ]
 }

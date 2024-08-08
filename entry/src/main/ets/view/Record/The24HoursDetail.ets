@@ -25,6 +25,7 @@ export default struct The24HoursDetail {
               Text(`${data.fxTime ? extractTime(data.fxTime) : ''}`)
                 .fontSize(14)
                 .fontColor(Color.White)
+                .fontWeight(CommonConstants.FONT_WEIGHT_500)
               Image($r(`app.media.${data.icon}`))
                 .width(20)
                 .height(20)
@@ -38,7 +39,7 @@ export default struct The24HoursDetail {
       }
       .width('100%')
       .listDirection(Axis.Horizontal)
-      .backgroundColor('rgba(0, 0, 0, 0.3)')
+      .backgroundColor($r('app.color.card_background'))
       .borderRadius(10)
       .margin({top:20})
       .padding({left:20,right:20,top:10,bottom:10})

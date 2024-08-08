@@ -53,32 +53,39 @@ struct CityWeatherContent {
   }
 
   build() {
-    Column() {
-      Column({space: 20}){
-        Text(`${this.city.detail?.now?.temp}°`)
-          .fontSize(70)
-          .fontWeight(CommonConstants.FONT_WEIGHT_700)
-        Text(`${this.city.detail?.now?.text} 23°/35° 空气优`)
-      }
-      .margin(50)
-      //提示框
-      Tips()
-      //24小时的天气预报
-      The24HoursDetail({city: this.city, HourWeather:this.HourWeather})
-      //15天的天气预报
-      The15DayDetail({city: this.city, DayWeather: this.DayWeather})
-      //其他天气信息组件
-      if(this.city.detail?.now)
+    if(this.city.detail?.now && this.DayWeather.daily){
+      Column() {
+        Column({space: 20}){
+          Text(`${this.city.detail?.now?.temp}°`)
+            .fontSize(80)
+            .fontWeight(CommonConstants.FONT_WEIGHT_700)
+            .fontColor(Color.White)
+          Text(`${this.city.detail?.now?.text}   ${this.DayWeather.daily[0].tempMin}°/${this.DayWeather.daily[0].tempMax}°`)
+            .fontColor(Color.White)
+            .fontSize(16)
+            .fontWeight(CommonConstants.FONT_WEIGHT_500)
+        }
+        .width('100%')
+        .alignItems(HorizontalAlign.Center)
+        .margin(50)
+        //提示框
+        Tips()
+        //24小时的天气预报
+        The24HoursDetail({city: this.city, HourWeather:this.HourWeather})
+        //15天的天气预报
+        The15DayDetail({city: this.city, DayWeather: this.DayWeather})
+        //其他天气信息组件
         OtherWeatherDetail({city: this.city, DayWeather: this.DayWeather})
-      else{
-        Text('加载中')
+        //生活建议指数
+        LifeAdvice({cityId: this.city.id})
       }
-      //生活建议指数
-      LifeAdvice({cityId: this.city.id})
+      .margin({top:CommonConstants.TOPIC_HEIGHT})
+      .width('100%')
+      .height('200%')
+    } else {
+      Text('加载中')
     }
-    .margin({top:CommonConstants.TOPIC_HEIGHT})
-    .width('100%')
-    .height('200%')
+
   }
 
   @Builder OtherWeatherDetail(){
@@ -135,9 +142,10 @@ struct OtherWeatherDetail{
       Image(image)
         .width(30)
         .height(30)
+        .fillColor(Color.White)
       Text(text)
         .fontSize(14)
-        .fontColor('#80262626')
+        .fontColor($r('app.color.text_fontcolor'))
       Row(){
         Text(`${data} `)
           .fontSize(16)
@@ -148,11 +156,11 @@ struct OtherWeatherDetail{
           .fontWeight(CommonConstants.FONT_WEIGHT_500)
           .fontColor(Color.White)
       }
+      .justifyContent(FlexAlign.Center)
       .width(80)
     }
-    .alignItems(HorizontalAlign.Center)
     .width(100)
-    .backgroundColor('rgba(0, 0, 0, 0.3)')
+    .backgroundColor($r('app.color.card_background'))
     .borderRadius(10)
     .padding(20)
 

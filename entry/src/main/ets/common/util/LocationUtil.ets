@@ -1,5 +1,4 @@
 import { geoLocationManager } from '@kit.LocationKit';
-import http from '@ohos.net.http';
 import { promptAction } from '@kit.ArkUI';
 import HttpGet from './HttpGet';
 import City from '../../viewmodel/City'
@@ -18,9 +17,6 @@ class Location{
 }
 
 class LocationUtil {
-  private  API_KEY = '5936dc34239542f099986a0bf48280c4';
-  private  GEOCODING_API_URL = 'https://geoapi.qweather.com/v2/city/lookup';
-
   async getCurrentLocation(): Promise<Location> {
     /*return new Promise((resolve, reject) => {
       geoLocationManager.getCurrentLocation((err, location) => {

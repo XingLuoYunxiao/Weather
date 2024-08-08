@@ -1,6 +1,5 @@
 import HttpGet from '../../common/util/HttpGet'
 import OtherItem,{LifeItem} from '../../viewmodel/OtherItem'
-import { ImageAnimatorModifier } from '@kit.ArkUI'
 import { CommonConstants } from '../../common/constants/CommonConstants'
 
 @Component
@@ -18,6 +17,19 @@ export default struct LifeAdvice {
   //生活建议
   build() {
     Column(){
+      Row(){
+        Text('生活建议')
+          .fontSize(14)
+          .fontColor($r('app.color.text_fontcolor'))
+        Text('>')
+          .fontSize(16)
+          .fontColor($r('app.color.text_fontcolor'))
+      }
+      .width('100%')
+      .padding(8)
+      .justifyContent(FlexAlign.SpaceBetween)
+      Divider()
+        .color($r('app.color.text_fontcolor'))
       Grid(){
         ForEach(this.lifeAdvice.daily, (data:LifeItem, index) => {
           GridItem(){
@@ -28,11 +40,12 @@ export default struct LifeAdvice {
       .columnsTemplate('1fr 1fr 1fr')
       .rowsTemplate('1fr 1fr 1fr')
     }
+    .padding({bottom:20})
     .margin({top:30})
     .width('90%')
     .borderRadius(10)
-    .height(300)
-    .backgroundColor('rgba(0, 0, 0, 0.3)')
+    .height(450)
+    .backgroundColor($r('app.color.card_background'))
   }
 
   @Builder Card(image:Resource,title:string, text:string){
@@ -44,10 +57,12 @@ export default struct LifeAdvice {
       Image(image)
         .width(30)
         .height(30)
+        .fillColor(Color.White)
       Text(text)
         .fontSize(16)
-        .fontColor('#80414141')
+        .fontColor($r('app.color.text_fontcolor'))
         .fontWeight(CommonConstants.FONT_WEIGHT_500)
     }
+    .padding(10)
   }
 }

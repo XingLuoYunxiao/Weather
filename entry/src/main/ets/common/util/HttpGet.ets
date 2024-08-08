@@ -11,7 +11,7 @@ class HttpGet {
   private searchCityUrl: string = 'https://geoapi.qweather.com/v2/city/lookup';
   private searchIdUrl: string = 'https://devapi.qweather.com/v7/';
   //private searchIdUrl: string = 'https://devapi.qweather.com/v7/grid-weather/';
-  private key: string = '5936dc34239542f099986a0bf48280c4';
+  private key: string = 'f6b4c31d80db485aabdbea8277545500';
   data:string = ""
 
 

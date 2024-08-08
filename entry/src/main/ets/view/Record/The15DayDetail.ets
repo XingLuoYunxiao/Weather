@@ -40,6 +40,7 @@ export default struct The15DayDetail {
               Text(`${data.fxDate ? formatDate(data.fxDate) : ''}`)
                 .fontSize(16)
                 .fontColor(Color.White)
+                .fontWeight(CommonConstants.FONT_WEIGHT_500)
               Blank()
               Image($r(`app.media.${data.iconDay}`))
                 .width(20)
@@ -57,7 +58,7 @@ export default struct The15DayDetail {
         })
       }
       .width('100%')
-      .backgroundColor('rgba(0, 0, 0, 0.3)')
+      .backgroundColor($r('app.color.card_background'))
       .borderRadius(10)
       .margin({top:20})
       .padding({left:20,right:20,top:10,bottom:10})
