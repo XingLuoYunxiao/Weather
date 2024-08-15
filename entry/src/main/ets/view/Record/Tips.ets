@@ -9,11 +9,11 @@ export default struct Tips {
   @Prop otherItem: OtherItem
   build() {
     Swiper() {
-      if( this.otherItem.warning)
+      if( this.otherItem.warning != undefined && this.otherItem.warning[0] != undefined)
         this.tip($r('app.media.warning_icon'), this.otherItem.warning[0].title, this.otherItem.warning[0].text)
-      if( this.otherItem.daily)
+      if( this.otherItem.daily != undefined && this.otherItem.daily[2] != undefined)
         this.tip($r('app.media.shirt'), this.otherItem.daily[2].category, this.otherItem.daily[2].text)
-      if( this.otherItem.now)
+      if( this.otherItem.now != undefined)
         this.tip($r('app.media.air_icon'), `空气${this.otherItem.now.category}`, AQICategory[Number(this.otherItem.now.level)])
 
     }

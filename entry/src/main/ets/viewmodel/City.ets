@@ -10,6 +10,4 @@ export default class City<Item>{
     this.id = id
     this.detail = detail
   }
-
-
 }
