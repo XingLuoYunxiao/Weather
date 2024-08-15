@@ -9,11 +9,14 @@ export default struct TopNavBar {
   @Prop cities:City<WeatherItem>[]
   build() {
       Row({space: 10}) {
-        if(this.cities[this.currentCityIndex].name !== undefined)
-        Text(this.cities[this.currentCityIndex].name)
-          .fontColor(Color.White)
-          .fontSize(20)
-          .fontWeight(FontWeight.Bold)
+        if(this.cities[this.currentCityIndex].name !== undefined){
+          Text(this.cities[this.currentCityIndex].name)
+            .fontColor(Color.White)
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+        }else{
+          Text('有问题')
+        }
         Blank()
         /*Image($r('app.media.theme_icon'))
           .width(24)

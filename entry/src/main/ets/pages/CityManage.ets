@@ -14,9 +14,13 @@ struct CityManage {
     new City( "北京",'101010100', new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","30","26","101","阴天"), undefined)),
   ]*/
   @Provide cities: City<WeatherItem>[] = []
+  @State isJudgeGet: boolean = false
 
   async aboutToAppear(): Promise<void> {
     this.cities = await PreferenceUtil.getAllCities(CommonConstants.CITY_INFO);
+    if( this.cities){
+      this.isJudgeGet = true
+    }
   }
 
   build() {
@@ -24,7 +28,11 @@ struct CityManage {
       // 1.导航栏
       CityHeader()
       // 2.城市列表
-      CityList()
+      if( this.isJudgeGet)
+        CityList()
+      else{
+        Text('加载中')
+      }
 
     }
     .width('100%')

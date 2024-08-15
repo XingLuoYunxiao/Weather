@@ -177,7 +177,7 @@ export default struct CityHeader {
     this.cities = [...this.cities]
   }
 
-  async loadCities() {
+  /*async loadCities() {
     let WeatherDetail:WeatherItem = new WeatherItem()
     for(let i = 0; i < this.cities.length; i++){
       if( this.cities[i].id != undefined)
@@ -186,6 +186,6 @@ export default struct CityHeader {
         this.cities[i].detail = WeatherDetail
       }
     }
-  }
+  }*/
 }
 

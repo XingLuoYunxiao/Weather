@@ -6,6 +6,8 @@ import WeatherItem, { WeatherDetail } from '../viewmodel/WeatherItem'
 import PreferenceUtil from '../common/util/PreferenceUtil'
 import LocationUtil from '../common/util/LocationUtil'
 import HttpGet from '../common/util/HttpGet'
+import { router } from '@kit.ArkUI'
+
 //import { BackgroundUtil } from '../common/util/BackgroundUtil'
 
 @Entry
@@ -14,6 +16,10 @@ struct WeatherPage {
   @StorageLink('currentIndex') currentCityIndex: number = 0
   @State cities: City<WeatherItem>[] = []
   @State myBackgroundImage: Resource = $r('app.media.default_background')
+
+/*  async aboutToAppear(): Promise<void> {
+    await this.loadCityData()
+  }*/
 
   async onPageShow(): Promise<void> {
     await this.loadCityData()
@@ -62,7 +68,8 @@ struct WeatherPage {
       }
       .scrollable(ScrollDirection.Vertical)
 
-      TopNavBar({ currentCityIndex: $currentCityIndex, cities: this.cities })
+      //TopNavBar({ currentCityIndex: $currentCityIndex, cities: this.cities })
+
     }
     .width('100%')
     .height('100%')
@@ -71,6 +78,42 @@ struct WeatherPage {
   build() {
     if (this.cities.length > 0) {
       this.WeatherContent()
+      Row({space: 10}) {
+        if(this.currentCityIndex < this.cities.length && this.cities[this.currentCityIndex].name !== undefined){
+          Text(this.cities[this.currentCityIndex].name)
+            .fontColor(Color.White)
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+        }else{
+          Text('有问题')
+        }
+        Blank()
+        /*Image($r('app.media.theme_icon'))
+          .width(24)
+          .height(24)*/
+        Image($r('app.media.city_manager_icon'))
+          .width(24)
+          .height(24)
+          .onClick(() => {
+            router.pushUrl({
+              url: 'pages/CityManage'
+            },
+              router.RouterMode.Single,
+              err => {
+                if( err){
+                  console.log(`路由失败，err:${err.code} errMsg:${err.message}`)
+                }
+              })
+          })
+        Image($r('app.media.settings_icon'))
+          .width(24)
+          .height(24)
+      }
+      .position({x:0,y:0})
+      .width('100%')
+      .height(CommonConstants.TOPIC_HEIGHT)
+      .backgroundColor('#ff2967c8')
+      .padding({ left: 16, right: 16 })
     } else {
       Column() {
         Text("加载中...")

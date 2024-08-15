@@ -6,7 +6,7 @@ export default struct CustomSliders {
   @Prop otherItem: OtherItem
   build() {
     Column({space:10}) {
-      // Air Quality Slider
+      // 空气质量组件
       Row(){
         Text('空气质量')
           .fontSize(16)
@@ -57,6 +57,7 @@ export default struct CustomSliders {
             .trackThickness(10)
             .showTips(true)
             .blockColor('#ffffffff')
+            .sliderInteractionMode(SliderInteraction.SLIDE_ONLY)//不允许用户通过点击滑轨使滑块移动
             .trackColor(new LinearGradient([
               { color: '#00FF00', offset: 0 },
               { color: '#FFFF00', offset: 0.2 },
@@ -68,8 +69,6 @@ export default struct CustomSliders {
             .selectedColor('#ffbeffcd')
         }
       }
-
-      // 空气质量条
 
       
     }
