@@ -13,11 +13,12 @@ struct CityManage {
     new City("长安区",'101110102',  new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","24","26","101","多云"), undefined)),
     new City( "北京",'101010100', new WeatherItem(undefined, undefined, undefined,new WeatherDetail("2020-06-30T21:40+08:00","30","26","101","阴天"), undefined)),
   ]*/
-  @Provide cities: City<WeatherItem>[] = []
+  //@Provide cities: City<WeatherItem>[] = []
+  @StorageLink('cities') cities: City<WeatherItem>[] = []
   @State isJudgeGet: boolean = false
 
   async aboutToAppear(): Promise<void> {
-    this.cities = await PreferenceUtil.getAllCities(CommonConstants.CITY_INFO);
+    //this.cities = await PreferenceUtil.getAllCities(CommonConstants.CITY_INFO);
     if( this.cities){
       this.isJudgeGet = true
     }

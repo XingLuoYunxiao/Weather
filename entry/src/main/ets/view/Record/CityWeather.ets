@@ -13,7 +13,7 @@ import Tips from './Tips'
 @Component
 export struct CityWeather {
   @Link currentCityIndex:number
-  @Prop cities:City<WeatherItem>[]
+  @StorageLink('cities') cities:City<WeatherItem>[] = AppStorage.get('cities')!
 
   build() {
     Swiper() {
@@ -36,6 +36,8 @@ export struct CityWeather {
 
 @Component
 struct CityWeatherContent {
+/*  @Watch('aboutToAppear')
+  @StorageProp('cities') cities:City<WeatherItem>[] = []*/
   @Prop city: City<WeatherItem>
   @State HourWeather:WeatherItem = new WeatherItem()
   @State DayWeather:WeatherItem = new WeatherItem()
@@ -111,7 +113,6 @@ struct CityWeatherContent {
     } else {
       Text('加载中')
     }
-
   }
 
 

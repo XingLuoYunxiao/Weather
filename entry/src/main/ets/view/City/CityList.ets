@@ -8,9 +8,13 @@ import { router } from '@kit.ArkUI'
 @Component
 export struct CityList {
   @StorageLink('currentIndex') currentCityIndex:number = 0
+ /* @Watch('aboutToAppear')
+  @Consume cities: City<WeatherItem>[]*/
   @Watch('aboutToAppear')
-  @Consume cities: City<WeatherItem>[]
+  @StorageLink('cities') cities: City<WeatherItem>[] = []
   @State isJudge: boolean = false
+
+
   async aboutToAppear(): Promise<void> {
     this.isJudge = false
     await this.loadCities()

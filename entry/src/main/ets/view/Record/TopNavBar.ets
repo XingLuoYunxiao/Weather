@@ -9,7 +9,7 @@ export default struct TopNavBar {
   @Prop cities:City<WeatherItem>[]
   build() {
       Row({space: 10}) {
-        if(this.cities[this.currentCityIndex].name !== undefined){
+        if(this.currentCityIndex < this.cities.length && this.cities[this.currentCityIndex].name !== undefined){
           Text(this.cities[this.currentCityIndex].name)
             .fontColor(Color.White)
             .fontSize(20)

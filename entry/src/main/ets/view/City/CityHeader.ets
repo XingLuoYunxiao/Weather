@@ -12,7 +12,8 @@ import HttpGet from '../../common/util/HttpGet'
 @Component
 export default struct CityHeader {
   @State isShow: boolean = false
-  @Consume cities: City<WeatherItem>[]
+  //@Consume cities: City<WeatherItem>[]
+  @StorageLink('cities') cities: City<WeatherItem>[] = []
   @State searchText: string = ''
   @State searchResults: City<WeatherItem>[] = []
   @State hotCities: City<WeatherItem>[] = [
@@ -173,19 +174,7 @@ export default struct CityHeader {
       this.cities.push(city)
       PreferenceUtil.putCity(CommonConstants.CITY_INFO, city.name, city.id)
     }
-    // 触发UI更新
-    this.cities = [...this.cities]
   }
 
-  /*async loadCities() {
-    let WeatherDetail:WeatherItem = new WeatherItem()
-    for(let i = 0; i < this.cities.length; i++){
-      if( this.cities[i].id != undefined)
-      {
-        WeatherDetail = await HttpGet.getCityWeatherData('weather', this.cities[i].id, "now")
-        this.cities[i].detail = WeatherDetail
-      }
-    }
-  }*/
 }
 
