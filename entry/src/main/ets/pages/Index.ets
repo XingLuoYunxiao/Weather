@@ -6,7 +6,6 @@ import WeatherItem, { WeatherDetail } from '../viewmodel/WeatherItem'
 import PreferenceUtil from '../common/util/PreferenceUtil'
 import LocationUtil from '../common/util/LocationUtil'
 import HttpGet from '../common/util/HttpGet'
-import { router } from '@kit.ArkUI'
 
 //import { BackgroundUtil } from '../common/util/BackgroundUtil'
 
@@ -18,9 +17,6 @@ struct WeatherPage {
   @State myBackgroundImage: Resource = $r('app.media.default_background')
   @State judge: boolean = true
 
-/*  async aboutToAppear(): Promise<void> {
-    await this.loadCityData()
-  }*/
 
   async onPageShow(): Promise<void> {
     if(this.judge){
@@ -28,7 +24,6 @@ struct WeatherPage {
       this.judge = false
       AppStorage.setOrCreate('cities', this.cities)
     }
-    //this.updateBackground()
   }
 
   async loadCityData() {

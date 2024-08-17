@@ -8,8 +8,6 @@ import { router } from '@kit.ArkUI'
 @Component
 export struct CityList {
   @StorageLink('currentIndex') currentCityIndex:number = 0
- /* @Watch('aboutToAppear')
-  @Consume cities: City<WeatherItem>[]*/
   @Watch('aboutToAppear')
   @StorageLink('cities') cities: City<WeatherItem>[] = []
   @State isJudge: boolean = false

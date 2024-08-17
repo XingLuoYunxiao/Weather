@@ -13,13 +13,13 @@ import Tips from './Tips'
 @Component
 export struct CityWeather {
   @Link currentCityIndex:number
-  @StorageLink('cities') cities:City<WeatherItem>[] = AppStorage.get('cities')!
+  @StorageLink('cities') cities:City<WeatherItem>[] = []
 
   build() {
     Swiper() {
       ForEach(this.cities, (city: City<WeatherItem>, index) => {
         List(){
-          CityWeatherContent({ city: city })
+          CityWeatherContent({ city: city})
         }
       })
 
@@ -36,9 +36,10 @@ export struct CityWeather {
 
 @Component
 struct CityWeatherContent {
-/*  @Watch('aboutToAppear')
-  @StorageProp('cities') cities:City<WeatherItem>[] = []*/
+  @StorageProp('currentCityIndex') currentCityIndex:number = 0
+  @StorageLink('cities') cities:City<WeatherItem>[] = []
   @Prop city: City<WeatherItem>
+  @State isLoading: boolean = false
   @State HourWeather:WeatherItem = new WeatherItem()
   @State DayWeather:WeatherItem = new WeatherItem()
   @State warnings: OtherItem = new OtherItem()
@@ -47,6 +48,8 @@ struct CityWeatherContent {
 
 
   async aboutToAppear(): Promise<void> {
+    this.city.detail = this.cities[this.currentCityIndex].detail
+
     await HttpGet.getCityWeatherData<WeatherItem>('weather', this.city.id, '24h')
       .then( (result) => {
         if(result.hourly)
@@ -76,10 +79,11 @@ struct CityWeatherContent {
         if(result.now)
           this.otherItem = new OtherItem(result.code, result.updateTime,result.fxLink, this.warnings.warning, result.now, this.lifeAdvice.daily , result.refer)
       })
+    this.isLoading = true
   }
 
   build() {
-    if(this.city.detail?.now && this.DayWeather.daily){
+    if(this.isLoading === true && this.city.detail?.now && this.DayWeather.daily){
       Column() {
         Column({space: 20}){
           Text(`${this.city.detail?.now?.temp}°`)
