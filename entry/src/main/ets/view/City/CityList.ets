@@ -54,7 +54,8 @@ export struct CityList {
               .width("90%")
               .height('15%')
               .borderRadius(15)
-              .backgroundColor('#ff2ca3e2') //TODO 需要根据天气进行卡片颜色的更新
+              .backgroundColor(this.cities[index].detail!.now?.text?.includes("雨")
+                || this.cities[index].detail!.now?.text?.includes("阴")  ? $r('app.color.rainy_backgroundcolor') : $r('app.color.default_backgroundcolor')) //TODO 需要根据天气进行卡片颜色的更新
             }
             .swipeAction({end: this.deleteButton(city.name)})
             .onClick( () => {

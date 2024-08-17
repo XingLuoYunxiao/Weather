@@ -6,15 +6,15 @@ import WeatherItem, { WeatherDetail } from '../viewmodel/WeatherItem'
 import PreferenceUtil from '../common/util/PreferenceUtil'
 import LocationUtil from '../common/util/LocationUtil'
 import HttpGet from '../common/util/HttpGet'
-
-//import { BackgroundUtil } from '../common/util/BackgroundUtil'
+import BackgroundUtil from '../common/util/BackgroundUtil'
 
 @Entry
 @Component
 struct WeatherPage {
+  @Watch('updateBackground')
   @StorageLink('currentIndex') currentCityIndex: number = 0
   @StorageLink('cities') cities: City<WeatherItem>[] = []
-  @State myBackgroundImage: Resource = $r('app.media.default_background')
+  @State myBackgroundImage: Resource = $r('app.media.default_background1')
   @State judge: boolean = true
 
 
@@ -24,6 +24,7 @@ struct WeatherPage {
       this.judge = false
       AppStorage.setOrCreate('cities', this.cities)
     }
+    this.updateBackground()
   }
 
   async loadCityData() {
@@ -45,12 +46,12 @@ struct WeatherPage {
     }
   }
 
-  /*updateBackground() {
+  updateBackground() {
     if (this.cities.length > 0 && this.cities[this.currentCityIndex].detail) {
       const weatherCondition = this.cities[this.currentCityIndex].detail?.now?.text || ''
       this.myBackgroundImage = BackgroundUtil.getBackgroundImage(weatherCondition);
     }
-  }*/
+  }
 
   @Builder
   WeatherContent() {
@@ -62,14 +63,14 @@ struct WeatherPage {
 
       Scroll() {
         Column() {
-          CityWeather({ currentCityIndex: $currentCityIndex})
+          CityWeather({myBackgroundImage: $myBackgroundImage})
         }
         .width('100%')
       }
       .scrollable(ScrollDirection.Vertical)
 
       if( this.cities.length > this.currentCityIndex)
-        TopNavBar({ currentCityIndex: $currentCityIndex, cities: this.cities })
+        TopNavBar({cities: this.cities })
       else{
         Text('有问题')
       }

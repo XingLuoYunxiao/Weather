@@ -6,11 +6,23 @@
     },
     {
       "name": "card_background",
-      "value": "#4880CA"
+      "value": "#4D000000"
     },
     {
       "name": "text_fontcolor",
       "value": "#FFC0CBD8"
+    },
+    {
+      "name": "rainy_backgroundcolor",
+      "value": "#FF606060"
+    },
+    {
+      "name": "snowy_backgroundcolor",
+      "value": "#FFDED8D8"
+    },
+    {
+      "name": "default_backgroundcolor",
+      "value": "#ff2ca3e2"
     }
   ]
 }

@@ -1,4 +1,5 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
+import BackgroundUtil from '../../common/util/BackgroundUtil'
 import HttpGet from '../../common/util/HttpGet'
 import City from '../../viewmodel/City'
 import OtherItem from '../../viewmodel/OtherItem'
@@ -12,8 +13,16 @@ import Tips from './Tips'
 
 @Component
 export struct CityWeather {
-  @Link currentCityIndex:number
+  @StorageLink('currentCityIndex') currentCityIndex:number = 0
   @StorageLink('cities') cities:City<WeatherItem>[] = []
+  @Link myBackgroundImage: Resource
+
+  updateBackground() {
+    if (this.cities.length > 0 && this.cities[this.currentCityIndex].detail) {
+      const weatherCondition = this.cities[this.currentCityIndex].detail?.now?.text || ''
+      this.myBackgroundImage = BackgroundUtil.getBackgroundImage(weatherCondition);
+    }
+  }
 
   build() {
     Swiper() {
@@ -21,6 +30,8 @@ export struct CityWeather {
         List(){
           CityWeatherContent({ city: city})
         }
+        .width('100%')
+        .height('100%')
       })
 
     }
@@ -29,6 +40,7 @@ export struct CityWeather {
     .layoutWeight(1)
     .onChange((index: number) => {
       this.currentCityIndex = index
+      this.updateBackground()
     })
     .loop(true)
   }

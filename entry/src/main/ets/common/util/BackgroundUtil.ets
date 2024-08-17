@@ -1,11 +1,11 @@
-/*
-export class BackgroundUtil {
+export default  class BackgroundUtil {
+
   static getBackgroundImage(weatherCondition: string): Resource {
     switch (weatherCondition.toLowerCase()) {
       case '晴':
         return $r('app.media.sunny_background');
       case '多云':
-        return $r('app.media.cloudy_background');
+        return $r('app.media.default_background1');
       case '阴':
         return $r('app.media.overcast_background');
       case '雨':
@@ -22,4 +22,5 @@ export class BackgroundUtil {
         return $r('app.media.default_background');
     }
   }
-}*/
+}
+
