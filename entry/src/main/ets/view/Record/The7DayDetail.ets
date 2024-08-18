@@ -30,7 +30,7 @@ function getDayDescription(dateString: string): string {
 }
 
 @Component
-export default struct The15DayDetail {
+export default struct The7DayDetail {
   @Prop DayWeather: WeatherItem
 
   build() {

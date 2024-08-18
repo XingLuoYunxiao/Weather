@@ -13,6 +13,11 @@
       "value": "#FFC0CBD8"
     },
     {
+      "name": "text_fontcolor_gray",
+      "value": "#FF8D8D8F"
+    },
+
+    {
       "name": "rainy_backgroundcolor",
       "value": "#FF606060"
     },
