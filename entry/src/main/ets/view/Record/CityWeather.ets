@@ -13,12 +13,14 @@ import Tips from './Tips'
 
 @Component
 export struct CityWeather {
+  @Watch('updateBackground')
   @StorageLink('currentCityIndex') currentCityIndex:number = 0
   @StorageLink('cities') cities:City<WeatherItem>[] = []
   @Link myBackgroundImage: Resource
 
+
   updateBackground() {
-    if (this.cities.length > 0 && this.cities[this.currentCityIndex].detail) {
+    if (this.currentCityIndex && this.cities.length > 0 && this.cities[this.currentCityIndex].detail) {
       const weatherCondition = this.cities[this.currentCityIndex].detail?.now?.text || ''
       this.myBackgroundImage = BackgroundUtil.getBackgroundImage(weatherCondition);
     }
@@ -28,7 +30,7 @@ export struct CityWeather {
     Swiper() {
       ForEach(this.cities, (city: City<WeatherItem>, index) => {
         List(){
-          CityWeatherContent({ city: city})
+          CityWeatherContent({ city: city, index: index})
         }
         .width('100%')
         .height('100%')
@@ -46,11 +48,13 @@ export struct CityWeather {
   }
 }
 
+//TODO 页面更换时数据未正确加载
 @Component
 struct CityWeatherContent {
-  @StorageProp('currentCityIndex') currentCityIndex:number = 0
+  //@StorageLink('currentCityIndex') currentCityIndex:number = 0
   @StorageLink('cities') cities:City<WeatherItem>[] = []
-  @Prop city: City<WeatherItem>
+  @Prop city: City<WeatherItem> = new City("")
+  @Prop index: number
   @State isLoading: boolean = false
   @State HourWeather:WeatherItem = new WeatherItem()
   @State DayWeather:WeatherItem = new WeatherItem()
@@ -61,7 +65,7 @@ struct CityWeatherContent {
 
 
   async aboutToAppear(): Promise<void> {
-    this.city.detail = this.cities[this.currentCityIndex].detail
+    this.city = this.cities[this.index]
 
     await HttpGet.getCityWeatherData<WeatherItem>('weather', this.city.id, '24h')
       .then( (result) => {
@@ -96,14 +100,14 @@ struct CityWeatherContent {
   }
 
   build() {
-    if(this.isLoading === true && this.city.detail?.now && this.DayWeather.daily){
+    if(this.isLoading == true && this.city.detail?.now && this.DayWeather.daily){
       Column() {
         Column({space: 20}){
-          Text(`${this.city.detail?.now?.temp}°`)
+          Text(`${this.city.detail.now.temp}°`)
             .fontSize(80)
             .fontWeight(CommonConstants.FONT_WEIGHT_700)
             .fontColor(Color.White)
-          Text(`${this.city.detail?.now?.text}   ${this.DayWeather.daily[0].tempMin}°/${this.DayWeather.daily[0].tempMax}°`)
+          Text(`${this.city.detail.now.text}   ${this.DayWeather.daily[0].tempMin}°/${this.DayWeather.daily[0].tempMax}°`)
             .fontColor(Color.White)
             .fontSize(16)
             .fontWeight(CommonConstants.FONT_WEIGHT_500)
@@ -141,7 +145,7 @@ struct CityWeatherContent {
       .width('100%')
       .height('300%')
     } else {
-      Text('加载中')
+      Text('加载中CityWeather')
     }
   }
 

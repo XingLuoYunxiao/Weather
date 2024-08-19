@@ -6,7 +6,7 @@ import WeatherItem from '../../viewmodel/WeatherItem'
 @Component
 export default struct TopNavBar {
   @StorageLink('currentCityIndex') currentCityIndex:number = 0
-  @Prop cities:City<WeatherItem>[]
+  @StorageLink('cities') cities:City<WeatherItem>[] = []
   build() {
       Row({space: 10}) {
         if(this.currentCityIndex < this.cities.length && this.cities[this.currentCityIndex].name !== undefined){
@@ -45,4 +45,5 @@ export default struct TopNavBar {
       //.backgroundColor('#ff2967c8')
       .padding({ left: 16, right: 16 })
     }
+
 }

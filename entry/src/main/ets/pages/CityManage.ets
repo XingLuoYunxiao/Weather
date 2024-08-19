@@ -32,7 +32,7 @@ struct CityManage {
       if( this.isJudgeGet)
         CityList()
       else{
-        Text('加载中')
+        Text('加载中Manage')
       }
 
     }

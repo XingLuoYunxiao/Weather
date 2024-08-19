@@ -12,7 +12,7 @@ import BackgroundUtil from '../common/util/BackgroundUtil'
 @Component
 struct WeatherPage {
   @Watch('updateBackground')
-  @StorageLink('currentIndex') currentCityIndex: number = 0
+  @StorageLink('currentCityIndex') currentCityIndex: number = 0
   @StorageLink('cities') cities: City<WeatherItem>[] = []
   @State myBackgroundImage: Resource = $r('app.media.default_background1')
   @State judge: boolean = true
@@ -24,7 +24,7 @@ struct WeatherPage {
       this.judge = false
       AppStorage.setOrCreate('cities', this.cities)
     }
-    this.updateBackground()
+    //this.updateBackground()
   }
 
   async loadCityData() {
@@ -70,7 +70,7 @@ struct WeatherPage {
       .scrollable(ScrollDirection.Vertical)
 
       if( this.cities.length > this.currentCityIndex)
-        TopNavBar({cities: this.cities })
+        TopNavBar()
       else{
         Text('有问题')
       }

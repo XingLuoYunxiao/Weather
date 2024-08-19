@@ -7,7 +7,7 @@ import { router } from '@kit.ArkUI'
 
 @Component
 export struct CityList {
-  @StorageLink('currentIndex') currentCityIndex:number = 0
+  @StorageLink('currentCityIndex') currentCityIndex:number = 0
   @Watch('aboutToAppear')
   @StorageLink('cities') cities: City<WeatherItem>[] = []
   @State isJudge: boolean = false
@@ -57,7 +57,7 @@ export struct CityList {
               .backgroundColor(this.cities[index].detail!.now?.text?.includes("雨")
                 || this.cities[index].detail!.now?.text?.includes("阴")  ? $r('app.color.rainy_backgroundcolor') : $r('app.color.default_backgroundcolor')) //TODO 需要根据天气进行卡片颜色的更新
             }
-            .swipeAction({end: this.deleteButton(city.name)})
+            .swipeAction(city.name === '长安' ? {end: this.noDelete()} : {end: this.deleteButton(city.name)})
             .onClick( () => {
               this.currentCityIndex = index
               router.back({
@@ -70,8 +70,18 @@ export struct CityList {
       .width('100%')
       .height('100%')
     }else{
-      Text('加载中')
+      Text('加载中CityList')
     }
+  }
+
+  @Builder
+  noDelete() {
+    Image($r('app.media.delete_icon'))
+      .fillColor(Color.Gray)
+      .width('20')
+      .height('20')
+      .margin({left:20})
+
   }
 
   //删除一个城市
