@@ -27,6 +27,7 @@ struct WeatherPage {
     //this.updateBackground()
   }
 
+  //加载城市信息
   async loadCityData() {
     try {
       const currentCityInfo = await LocationUtil.getCurrentCityInfo();
@@ -46,6 +47,7 @@ struct WeatherPage {
     }
   }
 
+  //更新天气背景
   updateBackground() {
     if (this.cities.length > 0 && this.cities[this.currentCityIndex].detail) {
       const weatherCondition = this.cities[this.currentCityIndex].detail?.now?.text || ''

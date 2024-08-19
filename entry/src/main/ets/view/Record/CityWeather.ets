@@ -48,7 +48,6 @@ export struct CityWeather {
   }
 }
 
-//TODO 页面更换时数据未正确加载
 @Component
 struct CityWeatherContent {
   //@StorageLink('currentCityIndex') currentCityIndex:number = 0
@@ -143,7 +142,7 @@ struct CityWeatherContent {
       }
       .margin({top:CommonConstants.TOPIC_HEIGHT})
       .width('100%')
-      .height('300%')
+      .height('240%')
     } else {
       Text('加载中CityWeather')
     }

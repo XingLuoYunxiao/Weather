@@ -35,9 +35,10 @@ export default struct TopNavBar {
               }
             })
           })
-        Image($r('app.media.settings_icon'))
+        //TODO 选择性完善
+        /*Image($r('app.media.settings_icon'))
           .width(24)
-          .height(24)
+          .height(24)*/
       }
       .position({x:0,y:0})
       .width('100%')

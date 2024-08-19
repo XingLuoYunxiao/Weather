@@ -55,7 +55,7 @@ export struct CityList {
               .height('15%')
               .borderRadius(15)
               .backgroundColor(this.cities[index].detail!.now?.text?.includes("雨")
-                || this.cities[index].detail!.now?.text?.includes("阴")  ? $r('app.color.rainy_backgroundcolor') : $r('app.color.default_backgroundcolor')) //TODO 需要根据天气进行卡片颜色的更新
+                || this.cities[index].detail!.now?.text?.includes("阴")  ? $r('app.color.rainy_backgroundcolor') : $r('app.color.default_backgroundcolor'))
             }
             .swipeAction(city.name === '长安' ? {end: this.noDelete()} : {end: this.deleteButton(city.name)})
             .onClick( () => {

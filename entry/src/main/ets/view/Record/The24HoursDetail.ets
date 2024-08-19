@@ -114,6 +114,7 @@ export default struct The24HoursDetail {
         }
       }
       .scrollable(ScrollDirection.Horizontal)
+      .scrollBar(BarState.Off)
 
 
       // 小时的具体信息

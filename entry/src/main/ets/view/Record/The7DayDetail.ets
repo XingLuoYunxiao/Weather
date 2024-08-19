@@ -4,6 +4,7 @@ import City from '../../viewmodel/City'
 import DayWeather from '../../viewmodel/DayWeather'
 import WeatherItem from '../../viewmodel/WeatherItem'
 
+//格式化时间
 function formatDate(dateString: string): string {
   const regex = /(\d{4})-(\d{2})-(\d{2})/;
   const match = dateString.match(regex);
@@ -17,6 +18,7 @@ function formatDate(dateString: string): string {
   return dateString;
 }
 
+//格式化星期
 function getDayDescription(dateString: string): string {
   const today = new Date();
   const targetDate = new Date(dateString);
