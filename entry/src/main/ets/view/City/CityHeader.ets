@@ -14,6 +14,7 @@ export default struct CityHeader {
   @State isShow: boolean = false
   //@Consume cities: City<WeatherItem>[]
   @StorageLink('cities') cities: City<WeatherItem>[] = []
+  @StorageLink('isSearch') isSearch: boolean = false
   @State searchText: string = ''
   @State searchResults: City<WeatherItem>[] = []
   @State hotCities: City<WeatherItem>[] = [
@@ -82,10 +83,10 @@ export default struct CityHeader {
           showClose: true,
           enableOutsideInteractive: false,
           dragBar: true,
-          /*shouldDismiss:(async () => {
-            this.loadCities()
+          shouldDismiss:( () => {
+            this.isSearch = false
             this.isShow = !this.isShow
-          })*/
+          })
         })
     }
     .width('100%')
@@ -100,11 +101,11 @@ export default struct CityHeader {
         .fontWeight(CommonConstants.FONT_WEIGHT_700)
 
       SearchHeader({ searchText: $searchText, searchResults: $searchResults })
+      if( !this.isSearch)
+        this.showHotCity('热门城市', this.hotCities)
+      //this.showHotCity('国际热门城市', this.internationalCities)
 
-      this.showHotCity('热门城市', this.hotCities)
-      this.showHotCity('国际热门城市', this.internationalCities)
-
-      if (this.searchResults.length > 0) {
+      if (this.searchResults.length > 0 && this.isSearch === true) {
         this.showSearchResults()
       }
     }

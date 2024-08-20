@@ -11,6 +11,7 @@ export default struct SearchHeader {
   @State isLoading: boolean = false;
   WeatherData:WeatherItem = new WeatherItem()
 
+  //TODO 搜索时，可以隐藏其他内容，只展示搜索出的城市
   async searchCity(text: string) {
     if (!text.trim()) {
       promptAction.showToast({
@@ -65,6 +66,7 @@ export default struct SearchHeader {
         .borderRadius(20)
         .padding({ left: 20, right: 20 })
         .onChange((value: string) => {
+          AppStorage.set('isSearch', true)
           this.searchText = value;
         })
       Button(this.isLoading ? '搜索中...' : '搜索')

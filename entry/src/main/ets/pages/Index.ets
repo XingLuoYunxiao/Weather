@@ -24,7 +24,7 @@ struct WeatherPage {
       this.judge = false
       AppStorage.setOrCreate('cities', this.cities)
     }
-    //this.updateBackground()
+    this.updateBackground()
   }
 
   //加载城市信息
